@@ -1,11 +1,16 @@
 from google.cloud import bigquery
+from google.oauth2 import service_account
+import streamlit as st
 
 # Query functions to fetch data :
 
 
 def fetch_top_series_by_genre_and_platform(genre, platform, max):
     """Executes the query located in the path given in the filepath to sql query"""
-    client = bigquery.Client("wbd-seo-data")
+    credentials = service_account.Credentials.from_service_account_info(
+    st.secrets["gcp_service_account"]
+    )
+    client = bigquery.Client(credentials=credentials)
     sql = """
     SELECT
   t1.id_brand,
