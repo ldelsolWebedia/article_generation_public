@@ -1,6 +1,5 @@
 import openai
 import streamlit as st
-from icecream import ic
 
 import trad_deepl
 
@@ -47,4 +46,4 @@ if __name__ == "__main__":
     text, nb = gen_article(
         instructions, trad_deepl.traduction(input, "FR", "EN-GB"), 3000
     )
-    ic(nb)
+    print(nb)

@@ -1,7 +1,6 @@
 import urllib.request
 
 from bs4 import BeautifulSoup
-from icecream import ic
 
 
 def get_html(url):
@@ -72,4 +71,4 @@ def get_recipe(url):
 
 
 if __name__ == "__main__":
-    ic(get_recipe("https://www.750g.com/cookies-aux-pepites-de-chocolat-r89377.htm"))
+    print(get_recipe("https://www.750g.com/cookies-aux-pepites-de-chocolat-r89377.htm"))
