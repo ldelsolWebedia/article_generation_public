@@ -1,16 +1,11 @@
 from google.cloud import bigquery
-from google.oauth2 import service_account
-import streamlit as st
 
 # Query functions to fetch data :
 
 
 def fetch_top_series_by_genre_and_platform(genre, platform, max):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
     SELECT
   t1.id_brand,
@@ -75,10 +70,7 @@ LIMIT @max
 
 def fetch_reviews_by_series_id(series_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
     SELECT
   re.id AS id_review,
@@ -133,10 +125,7 @@ LIMIT 2
 
 def fetch_number_of_ratings_series(series_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     id = "series.series._.{}".format(series_id)
     sql = """
   SELECT
@@ -158,10 +147,7 @@ AND id_brand = 'AC'
 
 def fetch_top_movies_by_genre_and_platform(genre, platform, max):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
     SELECT
   t1.id_brand,
@@ -226,10 +212,7 @@ LIMIT @max
 
 def fetch_reviews_by_movie_id(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
     SELECT
   re.id AS id_review,
@@ -284,10 +267,7 @@ LIMIT 2
 
 def fetch_number_of_ratings_movie(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     id = "movie.movie._.{}".format(movie_id)
     sql = """
   SELECT
@@ -309,10 +289,7 @@ AND id_brand = 'AC'
 
 def fetch_series_synopsis_to_translate(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
   SELECT
   *
@@ -343,10 +320,7 @@ LIMIT
 
 def fetch_movie_synopsis_to_translate(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
   SELECT
   *
@@ -377,10 +351,7 @@ LIMIT
 
 def fetch_generated_articles():
     """Executes the query located in the path given in the filepath to sql query"""
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client()
     sql = """
   SELECT
   *
@@ -404,11 +375,8 @@ def stream_bigquery_table(table_id, rows_to_insert):
     project_id = "wbd-seo-data"
     dataset_id = "content_generation"
 
-    credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
-    )
-    client = bigquery.Client(credentials=credentials)
-    
+    client = bigquery.Client()
+
     table_ref = client.dataset(dataset_id).table(table_id)
     table = client.get_table(table_ref)
 
@@ -437,3 +405,6 @@ def stream_bigquery_table(table_id, rows_to_insert):
 #     table = client.create_table(table)
 
 # create_article_table()
+
+if __name__ == "__main__" :
+  print(fetch_top_series_by_genre_and_platform("Action", "Netflix France", "2"))

@@ -1,6 +1,7 @@
 import datetime
 
-from article_films import BQ
+# from article_films import BQ
+import BQ
 import deepl
 from bs4 import BeautifulSoup  # we use bs to clean html synopsis
 import streamlit as st
@@ -241,3 +242,6 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
                 )
 
     return post_ranking_article_to_BQ(entity_type, genre, provider, nb_entities)
+
+if __name__ == "__main__" :
+    print(gen_movie_article(4, "Film", "Action", "Amazon Prime Video"))
