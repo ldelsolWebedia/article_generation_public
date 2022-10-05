@@ -48,8 +48,8 @@ def get_PAA(entity, nb_layer=1):
         "https://www.google.com/search?hl=fr&q=" + str(entity)
     )  # hl=fr makes the research in French
 
-    link = driver.find_element(By.ID, "W0wltc")
-    link.click()  # to refuse google cookies
+    # link = driver.find_element(By.ID, "W0wltc")
+    # link.click()  # to refuse google cookies
 
     WebDriverWait(driver, 10)
 
