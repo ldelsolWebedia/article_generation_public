@@ -15,4 +15,5 @@ Ce site a pour but de vous faire gagner du temps lors de l'écriture de certains
 Veuillez choisir sur le bandeau de gauche la fonctionnalité que vous voulez utiliser :
 - Générateur d'article à partir d'une recette
 - Générateur d'article FAQ
+- Générateur d'article de classement de films/séries
 """
