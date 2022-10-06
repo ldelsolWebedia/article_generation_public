@@ -1,7 +1,7 @@
 import datetime
 
 # from article_films import BQ
-from article_films import BQ
+import BQ
 import deepl
 from bs4 import BeautifulSoup  # we use bs to clean html synopsis
 import streamlit as st
@@ -71,20 +71,24 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
                 nb_ratings,
             )
 
+        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
         for j in range(len(list_review)):
+            if list_review[j] not in list_review_w_duplicates :
+                list_id_legacy_w_duplicates.append(list_id_legacy[j])
+                list_review_w_duplicates.append(list_review[j])
+                list_rating_w_duplicates.append(list_rating[j])
+        
+        for j in range(len(list_review_w_duplicates)):
             article += """
 
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
 
 {} ({} / 5 étoiles)
 """.format(
-                list_id_legacy[j],
+                list_id_legacy_w_duplicates[j],
                 list_id[i],
-                # gpt3.gpt3('''{}
-                # Extrais la phrase la plus informative de ce texte en français :
-                # '''.format(list_review[j])).strip(), # EXTRACT PHRASE FROM REVIEW
-                list_review[j],
-                str(round(float(list_rating[j]))),
+                list_review_w_duplicates[j],
+                str(round(float(list_rating_w_duplicates[j]))),
             )
 
     article = article.rstrip("\n").lstrip("\n")
@@ -152,20 +156,24 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
                 nb_ratings,
             )
 
-        for j in range(len(list_review)):
-            article += """
+            list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
+            for j in range(len(list_review)):
+                if list_review[j] not in list_review_w_duplicates :
+                    list_id_legacy_w_duplicates.append(list_id_legacy[j])
+                    list_review_w_duplicates.append(list_review[j])
+                    list_rating_w_duplicates.append(list_rating[j])
+            
+            for j in range(len(list_review_w_duplicates)):
+                article += """
 
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/film-{}/]
 
 {} ({} / 5 étoiles)
 """.format(
-                list_id_legacy[j],
+                list_id_legacy_w_duplicates[j],
                 list_id[i],
-                # gpt3.gpt3('''{}
-                # Extrais la phrase la plus informative de ce texte en français :
-                # '''.format(list_review[j])).strip(), # EXTRACT PHRASE FROM REVIEW
-                list_review[j],
-                str(round(float(list_rating[j]))),
+                list_review_w_duplicates[j],
+                str(round(float(list_rating_w_duplicates[j]))),
             )
 
     article = article.rstrip("\n").lstrip("\n")
@@ -245,3 +253,5 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
 
 if __name__ == "__main__" :
     print(gen_movie_article(4, "Film", "Action", "Amazon Prime Video"))
+    # print(post_ranking_article_to_BQ("Film", "Action", "Amazon Prime Video",2))
+    # print(get_top_movies_by_genre_and_platform("Action", "Amazon Prime Video",2))
