@@ -34,7 +34,7 @@ def callback():
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
-    nb_entities = st.slider("How old are you?", 1, 10, 5)
+    nb_entities = st.slider("Nombre de films/séries", 1, 10, 5)
     st.button("Lancer la génération", on_click=callback)
 
 with col2:
