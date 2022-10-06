@@ -10,7 +10,7 @@ def fetch_top_series_by_genre_and_platform(genre, platform, max):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
     SELECT
   t1.id_brand,
@@ -78,7 +78,7 @@ def fetch_reviews_by_series_id(series_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
     SELECT
   re.id AS id_review,
@@ -136,7 +136,7 @@ def fetch_number_of_ratings_series(series_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     id = "series.series._.{}".format(series_id)
     sql = """
   SELECT
@@ -161,7 +161,7 @@ def fetch_top_movies_by_genre_and_platform(genre, platform, max):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
     SELECT
   t1.id_brand,
@@ -229,7 +229,7 @@ def fetch_reviews_by_movie_id(movie_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
     SELECT
   re.id AS id_review,
@@ -287,7 +287,7 @@ def fetch_number_of_ratings_movie(movie_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     id = "movie.movie._.{}".format(movie_id)
     sql = """
   SELECT
@@ -312,7 +312,7 @@ def fetch_series_synopsis_to_translate(movie_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
   SELECT
   *
@@ -346,7 +346,7 @@ def fetch_movie_synopsis_to_translate(movie_id):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
   SELECT
   *
@@ -380,7 +380,7 @@ def fetch_generated_articles():
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
     sql = """
   SELECT
   *
@@ -407,7 +407,7 @@ def stream_bigquery_table(table_id, rows_to_insert):
     credentials = service_account.Credentials.from_service_account_info(
     st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
 
     table_ref = client.dataset(dataset_id).table(table_id)
     table = client.get_table(table_ref)
