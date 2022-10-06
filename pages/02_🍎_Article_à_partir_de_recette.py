@@ -22,10 +22,9 @@ with st.expander("ℹ️ - About this app", expanded=True):
     st.write(
         """     
 -   Cette application permet de générer une ébauche d'article à partir d'un lien d'une recette de 750g.
--   L'article se génère automatiquement à l'ouverture de la page.
+-   L'article se génère automatiquement dès que vous entrez une URL.
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' sous l'URL.
--   Si vous changez d'URL pensez bien à appuyer sur Entrée.
 -   Le Input text est le texte utilisé pour générer les parties de l'article.
 -   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
 -   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
