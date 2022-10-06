@@ -22,6 +22,11 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   L'article se génère automatiquement dès que vous rentrez un sujet.
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article'.
+-   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
+-   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
+-   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
+-   nb_layer correspond au nombre de couches de “People Also Ask” qui vont être utilisées pour générer l’article. 1 ≃ 4 questions; 2 ≃ 12 questions.
+-   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-d-article-FAQ-26637257f41f40ceae8b6f310ee89e2c
 	    """
     )
 

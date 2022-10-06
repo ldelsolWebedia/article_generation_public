@@ -27,6 +27,10 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' sous l'URL.
 -   Si vous changez d'URL pensez bien à appuyer sur Entrée.
 -   Le Input text est le texte utilisé pour générer les parties de l'article.
+-   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
+-   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
+-   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
+-   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-d-article-partir-d-une-recette-750g-32e23130813f4e0b8759ecfc54d243f2
 -   Vous pouvez essayer l'application avec cette URL : https://www.750g.com/tajine-de-kefta-aux-oeufs-r76578.htm
 	    """
     )

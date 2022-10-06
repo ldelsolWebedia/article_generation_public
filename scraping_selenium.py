@@ -2,7 +2,6 @@ import re
 import time
 from datetime import datetime
 
-from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -188,4 +187,4 @@ def get_PAA(entity, nb_layer=1):
 
 
 if __name__ == "__main__":
-    ic(get_PAA("Saumon fumé", 1))
+    print(get_PAA("Saumon fumé", 1))
