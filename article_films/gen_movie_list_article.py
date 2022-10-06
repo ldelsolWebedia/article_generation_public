@@ -1,7 +1,7 @@
 import datetime
 
 # from article_films import BQ
-import BQ
+from article_films import BQ
 import deepl
 from bs4 import BeautifulSoup  # we use bs to clean html synopsis
 import streamlit as st
