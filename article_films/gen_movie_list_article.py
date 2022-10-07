@@ -67,10 +67,10 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
         for j in range(len(list_review_w_duplicates)):
             article += """
 
-    [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
+[Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
 
-    {} ({} / 5 étoiles)
-    """.format(
+{} ({} / 5 étoiles)
+""".format(
                 list_id_legacy_w_duplicates[j],
                 list_id[i],
                 list_review_w_duplicates[j],

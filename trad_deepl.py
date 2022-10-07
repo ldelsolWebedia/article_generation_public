@@ -5,6 +5,19 @@ translator = deepl.Translator(st.secrets["DEEPL_KEY"])
 
 
 def traduction(text, source_language, target_language):
+
+    """
+    Function that translate a string in input to the specified language
+    It uses deepl API
+
+    Args:
+        text (str): the text to translate
+        target_language (str): language to translate to
+
+    Returns:
+        str: the result of the translation
+    """
+
     result = translator.translate_text(
         text, source_lang=source_language, target_lang=target_language
     )
