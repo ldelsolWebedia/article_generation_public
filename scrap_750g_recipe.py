@@ -9,7 +9,7 @@ def get_html(url):
     Function that get the html code from a given url.
 
     Args:
-        url: the url to get html code from.
+        url (str): the url to get html code from.
 
     Returns:
         str: the html code from the given url.
@@ -43,10 +43,10 @@ def get_recipe(url):
     Function that scrap the phone number of an entity.
 
     Args:
-        entity: the name of the entity.
+        entity (str): the name of the entity.
 
     Returns:
-        dict: a dictionary with the name of the entity and its phone number
+        recipe (dict): a dictionary with the name of the entity and its phone number
     """
 
     soup = get_html(url)

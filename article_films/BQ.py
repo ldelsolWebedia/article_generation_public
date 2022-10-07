@@ -1,6 +1,7 @@
 import streamlit as st
 from google.oauth2 import service_account
 from google.cloud import bigquery
+from icecream import ic
 
 # Query functions to fetch data :
 
@@ -92,7 +93,7 @@ OFFSET
     (1)] AS INT64) AS id_series,
   ra.id_brand,
   ROUND(ROUND(ra.rating/2,2),1) AS rating,
-  CAST(SUBSTRING(re.stats,STRPOS(re.stats,'"wilson_score": ')+CHAR_LENGTH('"wilson_score": '),STRPOS(re.stats,', "helpful_count":')-STRPOS(re.stats,'"wilson_score": ')-CHAR_LENGTH('"wilson_score": ')) AS FLOAT64) AS wilson_score,
+  IF(re.stats != "{}",CAST(SUBSTRING(re.stats,STRPOS(re.stats,'"wilson_score": ')+CHAR_LENGTH('"wilson_score": '),STRPOS(re.stats,', "helpful_count":')-STRPOS(re.stats,'"wilson_score": ')-CHAR_LENGTH('"wilson_score": ')) AS FLOAT64),0) AS wilson_score,
   re.status,
   re.body AS review,
   re.updated_at
@@ -430,4 +431,4 @@ def stream_bigquery_table(table_id, rows_to_insert):
 # create_article_table()
 
 if __name__ == "__main__":
-    print(fetch_top_series_by_genre_and_platform("Action", "Netflix France", "2"))
+    ic(fetch_reviews_by_series_id(26892))
