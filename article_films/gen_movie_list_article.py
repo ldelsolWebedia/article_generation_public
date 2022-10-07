@@ -1,10 +1,11 @@
 import datetime
 
 # from article_films import BQ
-from article_films import BQ
+import BQ
 import deepl
 from bs4 import BeautifulSoup  # we use bs to clean html synopsis
 import streamlit as st
+from icecream import ic
 
 translator = deepl.Translator(st.secrets["DEEPL_KEY"])
 
@@ -23,73 +24,57 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
     )
     for i in range(len(list_original_title)):
         df_synopsis = BQ.fetch_series_synopsis_to_translate(int(list_id[i]))
-        try:
+        if "synopsis" in df_synopsis:
             synopsis = df_synopsis["synopsis"][0]
-        except:
+        else:
             synopsis = "Pas de synopsis disponible pour cette série."
         df_reviews = BQ.fetch_reviews_by_series_id(int(list_id[i]))
         list_rating = df_reviews["rating"]
         list_review = df_reviews["review"]
         list_id_legacy = df_reviews["id_legacy"]
         nb_ratings = BQ.fetch_number_of_ratings_series(int(list_id[i]))
-        try:
-            article += """
+        article += """
 
 ## {} / {}{} ({} / 5 étoiles, {} notes)
 
 {}
 """.format(
-                i + 1,
-                list_FR_title[i]
-                if list_FR_title[i] is not None
-                else list_original_title[i],
-                (" (" + list_original_title[i] + ")")
-                if list_FR_title[i] is not None
-                else "",
-                list_global_rating[i],
-                nb_ratings,
-                translator.translate_text(
-                    (BeautifulSoup(synopsis, features="lxml").get_text()),
-                    target_lang="FR",
-                )
-                if synopsis != "Pas de synopsis disponible pour cette série."
-                else synopsis,  # cleaning up synopsis with Beautifulsoup in case it is still in html and not just in text
+            i + 1,
+            list_FR_title[i]
+            if list_FR_title[i] is not None
+            else list_original_title[i],
+            (" (" + list_original_title[i] + ")")
+            if list_FR_title[i] is not None
+            else "",
+            list_global_rating[i],
+            nb_ratings,
+            translator.translate_text(
+                (synopsis),
+                target_lang="FR",
             )
-        except:
-            article += """
+            if synopsis != "Pas de synopsis disponible pour cette série."
+            else synopsis,  # cleaning up synopsis with Beautifulsoup in case it is still in html and not just in text
+        )
 
-## {} / {}{} ({} / 5 étoiles, {} notes)
-""".format(
-                i + 1,
-                list_FR_title[i]
-                if list_FR_title[i] is not None
-                else list_original_title[i],
-                (" (" + list_original_title[i] + ")")
-                if list_FR_title[i] is not None
-                else "",
-                list_global_rating[i],
-                nb_ratings,
-            )
-
-        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
-        for j in range(len(list_review)):
-            if list_review[j] not in list_review_w_duplicates :
-                list_id_legacy_w_duplicates.append(list_id_legacy[j])
-                list_review_w_duplicates.append(list_review[j])
-                list_rating_w_duplicates.append(list_rating[j])
-        
-        for j in range(len(list_review_w_duplicates)):
-            article += """
+    list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
+    for j in range(len(list_review)):
+        if list_review[j] not in list_review_w_duplicates :
+            list_id_legacy_w_duplicates.append(list_id_legacy[j])
+            list_review_w_duplicates.append(list_review[j])
+            list_rating_w_duplicates.append(list_rating[j])
+    
+    for j in range(len(list_review_w_duplicates)):
+        article += """
 
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
 
 {} ({} / 5 étoiles)
 """.format(
-                list_id_legacy_w_duplicates[j],
-                list_id[i],
-                list_review_w_duplicates[j],
-                str(round(float(list_rating_w_duplicates[j]))),
-            )
+            list_id_legacy_w_duplicates[j],
+            list_id[i],
+            list_review_w_duplicates[j],
+            str(round(float(list_rating_w_duplicates[j]))),
+        )
 
     article = article.rstrip("\n").lstrip("\n")
     return article
@@ -108,75 +93,59 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
     )
     for i in range(len(list_original_title)):
         df_synopsis = BQ.fetch_movie_synopsis_to_translate(int(list_id[i]))
-        try:
+        if "synopsis" in df_synopsis:
             synopsis = df_synopsis["synopsis"][0]
-        except:
+        else:
             synopsis = "Pas de synopsis disponible pour ce film."
         df_reviews = BQ.fetch_reviews_by_movie_id(int(list_id[i]))
         list_rating = df_reviews["rating"]
         list_review = df_reviews["review"]
         list_id_legacy = df_reviews["id_legacy"]
         nb_ratings = BQ.fetch_number_of_ratings_movie(int(list_id[i]))
-        try:
-            article += """
+        article += """
 
 ## {} / {}{} ({} / 5 étoiles, {} notes)
-
 {}
 """.format(
-                i + 1,
-                list_FR_title[i]
-                if list_FR_title[i] is not None
-                else list_original_title[i],
-                (" (" + list_original_title[i] + ")")
-                if list_FR_title[i] is not None
-                else "",
-                list_global_rating[i],
-                nb_ratings,
-                translator.translate_text(
-                    (BeautifulSoup(synopsis, features="lxml").get_text()),
-                    target_lang="FR",
-                )
-                if synopsis != "Pas de synopsis disponible pour ce film."
-                else synopsis,  # cleaning up synopsis in case it is still in html and not just in text
+            i + 1,
+            list_FR_title[i]
+            if list_FR_title[i] is not None
+            else list_original_title[i],
+            (" (" + list_original_title[i] + ")")
+            if list_FR_title[i] is not None
+            else "",
+            list_global_rating[i],
+            nb_ratings,
+            translator.translate_text(
+                synopsis,
+                target_lang="FR",
             )
-        except:
+            if synopsis != "Pas de synopsis disponible pour ce film."
+            else synopsis,  # cleaning up synopsis in case it is still in html and not just in text
+        )
+
+        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
+        for j in range(len(list_review)):
+            if list_review[j] not in list_review_w_duplicates :
+                list_id_legacy_w_duplicates.append(list_id_legacy[j])
+                list_review_w_duplicates.append(list_review[j])
+                list_rating_w_duplicates.append(list_rating[j])
+        
+        for j in range(len(list_review_w_duplicates)):
             article += """
-
-## {} / {}{} ({} / 5 étoiles, {} notes)
-""".format(
-                i + 1,
-                list_FR_title[i]
-                if list_FR_title[i] is not None
-                else list_original_title[i],
-                (" (" + list_original_title[i] + ")")
-                if list_FR_title[i] is not None
-                else "",
-                list_global_rating[i],
-                nb_ratings,
-            )
-
-            list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
-            for j in range(len(list_review)):
-                if list_review[j] not in list_review_w_duplicates :
-                    list_id_legacy_w_duplicates.append(list_id_legacy[j])
-                    list_review_w_duplicates.append(list_review[j])
-                    list_rating_w_duplicates.append(list_rating[j])
-            
-            for j in range(len(list_review_w_duplicates)):
-                article += """
 
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/film-{}/]
 
 {} ({} / 5 étoiles)
 """.format(
-                list_id_legacy_w_duplicates[j],
-                list_id[i],
-                list_review_w_duplicates[j],
-                str(round(float(list_rating_w_duplicates[j]))),
-            )
+            list_id_legacy_w_duplicates[j],
+            list_id[i],
+            list_review_w_duplicates[j],
+            str(round(float(list_rating_w_duplicates[j]))),
+        )
 
-    article = article.rstrip("\n").lstrip("\n")
+    # article = article.rstrip("\n").lstrip("\n")
+    ic("end")
     return article
 
 
