@@ -1,9 +1,9 @@
 import datetime
 
 from article_films import BQ
+
 # import BQ
 import deepl
-from bs4 import BeautifulSoup  # we use bs to clean html synopsis
 import streamlit as st
 from icecream import ic
 
@@ -48,21 +48,22 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
             else "",
             list_global_rating[i],
             nb_ratings,
-            translator.translate_text(
-                (synopsis),
-                target_lang="FR",
-            )
+            translator.translate_text((synopsis), target_lang="FR",)
             if synopsis != "Pas de synopsis disponible pour cette série."
             else synopsis,  # cleaning up synopsis with Beautifulsoup in case it is still in html and not just in text
         )
 
-    list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
+    list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = (
+        [],
+        [],
+        [],
+    )
     for j in range(len(list_review)):
-        if list_review[j] not in list_review_w_duplicates :
+        if list_review[j] not in list_review_w_duplicates:
             list_id_legacy_w_duplicates.append(list_id_legacy[j])
             list_review_w_duplicates.append(list_review[j])
             list_rating_w_duplicates.append(list_rating[j])
-    
+
     for j in range(len(list_review_w_duplicates)):
         article += """
 
@@ -116,21 +117,22 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
             else "",
             list_global_rating[i],
             nb_ratings,
-            translator.translate_text(
-                synopsis,
-                target_lang="FR",
-            )
+            translator.translate_text(synopsis, target_lang="FR",)
             if synopsis != "Pas de synopsis disponible pour ce film."
             else synopsis,  # cleaning up synopsis in case it is still in html and not just in text
         )
 
-        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = [],[],[]
+        (
+            list_id_legacy_w_duplicates,
+            list_review_w_duplicates,
+            list_rating_w_duplicates,
+        ) = ([], [], [])
         for j in range(len(list_review)):
-            if list_review[j] not in list_review_w_duplicates :
+            if list_review[j] not in list_review_w_duplicates:
                 list_id_legacy_w_duplicates.append(list_id_legacy[j])
                 list_review_w_duplicates.append(list_review[j])
                 list_rating_w_duplicates.append(list_rating[j])
-        
+
         for j in range(len(list_review_w_duplicates)):
             article += """
 
@@ -138,11 +140,11 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
 
 {} ({} / 5 étoiles)
 """.format(
-            list_id_legacy_w_duplicates[j],
-            list_id[i],
-            list_review_w_duplicates[j],
-            str(round(float(list_rating_w_duplicates[j]))),
-        )
+                list_id_legacy_w_duplicates[j],
+                list_id[i],
+                list_review_w_duplicates[j],
+                str(round(float(list_rating_w_duplicates[j]))),
+            )
 
     # article = article.rstrip("\n").lstrip("\n")
     ic("end")
@@ -220,7 +222,8 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
 
     return post_ranking_article_to_BQ(entity_type, genre, provider, nb_entities)
 
-if __name__ == "__main__" :
+
+if __name__ == "__main__":
     print(gen_movie_article(4, "Film", "Action", "Amazon Prime Video"))
     # print(post_ranking_article_to_BQ("Film", "Action", "Amazon Prime Video",2))
     # print(get_top_movies_by_genre_and_platform("Action", "Amazon Prime Video",2))

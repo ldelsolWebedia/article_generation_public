@@ -8,8 +8,7 @@ import trad_deepl
 # Creation of a streamlit application to generated an article from a 750g recipe.
 
 st.set_page_config(
-    page_title="750g food article generator",
-    page_icon=":apple:",
+    page_title="750g food article generator", page_icon=":apple:",
 )
 
 if "first_time" not in st.session_state:

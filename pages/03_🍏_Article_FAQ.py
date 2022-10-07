@@ -5,8 +5,7 @@ import GPT3
 import scraping_selenium
 
 st.set_page_config(
-    page_title="750g PAA food article generator",
-    page_icon=":green_apple:",
+    page_title="750g PAA food article generator", page_icon=":green_apple:",
 )
 
 if "first_time" not in st.session_state:

@@ -8,9 +8,9 @@ from google.cloud import bigquery
 def fetch_top_series_by_genre_and_platform(genre, platform, max):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
     SELECT
   t1.id_brand,
@@ -76,9 +76,9 @@ LIMIT @max
 def fetch_reviews_by_series_id(series_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
     SELECT
   re.id AS id_review,
@@ -134,9 +134,9 @@ LIMIT 2
 def fetch_number_of_ratings_series(series_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     id = "series.series._.{}".format(series_id)
     sql = """
   SELECT
@@ -148,9 +148,7 @@ WHERE
 AND id_brand = 'AC'
     """
     job_config = bigquery.QueryJobConfig(
-        query_parameters=[
-            bigquery.ScalarQueryParameter("id", "STRING", id),
-        ]
+        query_parameters=[bigquery.ScalarQueryParameter("id", "STRING", id),]
     )
     df = client.query(sql, job_config=job_config).to_dataframe()
     return int(df["nb_ratings"][0])
@@ -159,9 +157,9 @@ AND id_brand = 'AC'
 def fetch_top_movies_by_genre_and_platform(genre, platform, max):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
     SELECT
   t1.id_brand,
@@ -227,9 +225,9 @@ LIMIT @max
 def fetch_reviews_by_movie_id(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
     SELECT
   re.id AS id_review,
@@ -274,9 +272,7 @@ ORDER BY
 LIMIT 2
     """
     job_config = bigquery.QueryJobConfig(
-        query_parameters=[
-            bigquery.ScalarQueryParameter("movie_id", "INT64", movie_id),
-        ]
+        query_parameters=[bigquery.ScalarQueryParameter("movie_id", "INT64", movie_id),]
     )
     df = client.query(sql, job_config=job_config).to_dataframe()
     return df
@@ -285,9 +281,9 @@ LIMIT 2
 def fetch_number_of_ratings_movie(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     id = "movie.movie._.{}".format(movie_id)
     sql = """
   SELECT
@@ -299,9 +295,7 @@ WHERE
 AND id_brand = 'AC'
     """
     job_config = bigquery.QueryJobConfig(
-        query_parameters=[
-            bigquery.ScalarQueryParameter("id", "STRING", id),
-        ]
+        query_parameters=[bigquery.ScalarQueryParameter("id", "STRING", id),]
     )
     df = client.query(sql, job_config=job_config).to_dataframe()
     return int(df["nb_ratings"][0])
@@ -310,9 +304,9 @@ AND id_brand = 'AC'
 def fetch_series_synopsis_to_translate(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
   SELECT
   *
@@ -344,9 +338,9 @@ LIMIT
 def fetch_movie_synopsis_to_translate(movie_id):
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
   SELECT
   *
@@ -367,9 +361,7 @@ LIMIT
   1
     """
     job_config = bigquery.QueryJobConfig(
-        query_parameters=[
-            bigquery.ScalarQueryParameter("movie_id", "INT64", movie_id),
-        ]
+        query_parameters=[bigquery.ScalarQueryParameter("movie_id", "INT64", movie_id),]
     )
     df = client.query(sql, job_config=job_config).to_dataframe()
     return df
@@ -378,9 +370,9 @@ LIMIT
 def fetch_generated_articles():
     """Executes the query located in the path given in the filepath to sql query"""
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
     sql = """
   SELECT
   *
@@ -405,9 +397,9 @@ def stream_bigquery_table(table_id, rows_to_insert):
     dataset_id = "content_generation"
 
     credentials = service_account.Credentials.from_service_account_info(
-    st.secrets["gcp_service_account"]
+        st.secrets["gcp_service_account"]
     )
-    client = bigquery.Client(project="wbd-seo-data",credentials=credentials)
+    client = bigquery.Client(project="wbd-seo-data", credentials=credentials)
 
     table_ref = client.dataset(dataset_id).table(table_id)
     table = client.get_table(table_ref)
@@ -438,5 +430,5 @@ def stream_bigquery_table(table_id, rows_to_insert):
 
 # create_article_table()
 
-if __name__ == "__main__" :
-  print(fetch_top_series_by_genre_and_platform("Action", "Netflix France", "2"))
+if __name__ == "__main__":
+    print(fetch_top_series_by_genre_and_platform("Action", "Netflix France", "2"))

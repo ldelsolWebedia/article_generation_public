@@ -1,8 +1,7 @@
 import streamlit as st
 
 st.set_page_config(
-    page_title="Générateur d'ébauche d'article",
-    page_icon="🤖",
+    page_title="Générateur d'ébauche d'article", page_icon="🤖",
 )
 
 st.title("🤖 Générateur d'ébauche d'article")
