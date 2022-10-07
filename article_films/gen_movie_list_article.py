@@ -53,29 +53,29 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
             else synopsis,  # cleaning up synopsis with Beautifulsoup in case it is still in html and not just in text
         )
 
-    list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = (
-        [],
-        [],
-        [],
-    )
-    for j in range(len(list_review)):
-        if list_review[j] not in list_review_w_duplicates:
-            list_id_legacy_w_duplicates.append(list_id_legacy[j])
-            list_review_w_duplicates.append(list_review[j])
-            list_rating_w_duplicates.append(list_rating[j])
-
-    for j in range(len(list_review_w_duplicates)):
-        article += """
-
-[Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
-
-{} ({} / 5 étoiles)
-""".format(
-            list_id_legacy_w_duplicates[j],
-            list_id[i],
-            list_review_w_duplicates[j],
-            str(round(float(list_rating_w_duplicates[j]))),
+        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = (
+            [],
+            [],
+            [],
         )
+        for j in range(len(list_review)):
+            if list_review[j] not in list_review_w_duplicates:
+                list_id_legacy_w_duplicates.append(list_id_legacy[j])
+                list_review_w_duplicates.append(list_review[j])
+                list_rating_w_duplicates.append(list_rating[j])
+
+        for j in range(len(list_review_w_duplicates)):
+            article += """
+
+    [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
+
+    {} ({} / 5 étoiles)
+    """.format(
+                list_id_legacy_w_duplicates[j],
+                list_id[i],
+                list_review_w_duplicates[j],
+                str(round(float(list_rating_w_duplicates[j]))),
+            )
 
     article = article.rstrip("\n").lstrip("\n")
     return article
@@ -146,8 +146,7 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
                 str(round(float(list_rating_w_duplicates[j]))),
             )
 
-    # article = article.rstrip("\n").lstrip("\n")
-    ic("end")
+    article = article.rstrip("\n").lstrip("\n")
     return article
 
 
@@ -224,6 +223,6 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
 
 
 if __name__ == "__main__":
-    print(gen_movie_article(4, "Film", "Action", "Amazon Prime Video"))
+    print(gen_movie_article(2, "Série", "Action", "Amazon Prime Video"))
     # print(post_ranking_article_to_BQ("Film", "Action", "Amazon Prime Video",2))
-    # print(get_top_movies_by_genre_and_platform("Action", "Amazon Prime Video",2))
+    # print(get_top_series_by_genre_and_platform("Action", "Amazon Prime Video",2))
