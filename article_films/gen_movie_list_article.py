@@ -19,9 +19,9 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
     list_global_rating = list(df_top["note_sur_5"])
 
     article = """Voici le top {} des meilleures séries dans la catégorie "{}" disponibles sur {} :
-    """.format(
-        max, genre, platform
-    )
+""".format(
+    max, genre, platform
+)
 
     try :
         for i in range(len(list_original_title)):
@@ -37,10 +37,10 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
             nb_ratings = BQ.fetch_number_of_ratings_series(int(list_id[i]))
             article += """
 
-    ## {} / {}{} ({} / 5 étoiles, {} notes)
+## {} / {}{} ({} / 5 étoiles, {} notes)
 
-    {}
-    """.format(
+{}
+""".format(
                 i + 1,
                 list_FR_title[i]
                 if list_FR_title[i] is not None
@@ -69,10 +69,10 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
             for j in range(len(list_review_w_duplicates)):
                 article += """
 
-    [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
+[Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
 
-    {} ({} / 5 étoiles)
-    """.format(
+{} ({} / 5 étoiles)
+""".format(
                     list_id_legacy_w_duplicates[j],
                     list_id[i],
                     list_review_w_duplicates[j],
@@ -93,9 +93,9 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
     list_global_rating = list(df_top["note_sur_5"])
 
     article = """# Voici le top {} des meilleurs films dans la catégorie "{}" disponibles sur {} :
-    """.format(
-        max, genre, platform
-    )
+""".format(
+    max, genre, platform
+)
     try : 
         for i in range(len(list_original_title)):
             df_synopsis = BQ.fetch_movie_synopsis_to_translate(int(list_id[i]))
@@ -109,10 +109,10 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
             list_id_legacy = df_reviews["id_legacy"]
             nb_ratings = BQ.fetch_number_of_ratings_movie(int(list_id[i]))
             article += """
-
-    ## {} / {}{} ({} / 5 étoiles, {} notes)
-    {}
-    """.format(
+            
+## {} / {}{} ({} / 5 étoiles, {} notes)
+{}
+""".format(
                 i + 1,
                 list_FR_title[i]
                 if list_FR_title[i] is not None
@@ -141,10 +141,10 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
             for j in range(len(list_review_w_duplicates)):
                 article += """
 
-    [Review from URL : https://www.allocine.fr/membre-{}/critiques/film-{}/]
+[Review from URL : https://www.allocine.fr/membre-{}/critiques/film-{}/]
 
-    {} ({} / 5 étoiles)
-    """.format(
+{} ({} / 5 étoiles)
+""".format(
                     list_id_legacy_w_duplicates[j],
                     list_id[i],
                     list_review_w_duplicates[j],
