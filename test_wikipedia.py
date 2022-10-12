@@ -34,5 +34,3 @@ for el in tqdm(form):
     text += paraphrase
 ic(text)
 
-with open("text.txt", "w") as f:
-    f.write(text)

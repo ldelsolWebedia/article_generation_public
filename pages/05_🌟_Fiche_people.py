@@ -19,15 +19,14 @@ with st.expander("ℹ️ - About this app", expanded=True):
 
     st.write(
         """     
--   Cette application permet de générer une ébauche d'article FAQ à partir d'un sujet choisi.
--   L'article se génère automatiquement dès que vous rentrez un sujet.
--   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
+-   Cette application permet de générer une ébauche de fiche people à partir d'un sujet choisi.
+-   La fiche se génère automatiquement dès que vous rentrez un sujet.
+-   Vous pouvez recharger une partie de la fiche si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article'.
 -   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
 -   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
 -   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
--   nb_layer correspond au nombre de couches de “People Also Ask” qui vont être utilisées pour générer l’article. 1 ≃ 4 questions; 2 ≃ 12 questions.
--   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-d-article-FAQ-26637257f41f40ceae8b6f310ee89e2c
+-   La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.
 	    """
     )
 
@@ -44,18 +43,16 @@ subject = st.text_input("Sujet", on_change=callback).title()
 if st.button("Copier l'article"):
     try:
         text_to_be_copied = (
-            "## Titres :"
-            + st.session_state["Titles"]
-            + "## Introduction :"
-            + st.session_state["Introduction"]
+            "## " + subject + " :"
+            + "\n\n"
+            + "- Naissance :"
+            + st.session_state["info"]
+            + "\n\n"
+            + st.session_state["bio"]
         )
-        for el in st.session_state["PAA"]:
-            text_to_be_copied += "## " + el["title"] + " :\n"
-            text_to_be_copied += st.session_state[el["title"]] + "\n\n"
-        text_to_be_copied += "## Conclusion :" + st.session_state["Conclusion"]
         pyperclip.copy(text_to_be_copied)
     except:
-        st.write("## Erreur : Il n'y a pas d'article à copier")
+        st.write("## Erreur : Il n'y a pas de fiche à copier")
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
@@ -73,7 +70,24 @@ with st.sidebar:
 if subject != "":
 
     st.write("## " + subject + " :")
+
     if st.session_state["first_time"]:
+
+        st.session_state["info"] = GPT3.gen_article(
+                "Ecris une liste en donnant dans l'ordre : la date de naissance, le métier, le signe astrologique, le pays de naissance, la ville de naissance de " 
+                + subject
+                + "\n\n"
+                + "- Naissance :",
+                2000,
+                0.00,
+                1.00,
+                0.00,
+                0.00,
+            )[0]
+
+    st.write("- Naissance :" + st.session_state["info"])
+
+    if st.session_state["first_time"] or st.button("🔄 Biographie"):
 
         wiki = wikipediaapi.Wikipedia("en")
 
@@ -82,7 +96,7 @@ if subject != "":
         if not page_wiki.exists():
             st.write("Erreur : Il n'y a pas de page wikipédia pour " + subject)
 
-        st.session_state["form"] = ""
+        st.session_state["bio"] = ""
         paragraph = re.findall(".*?(?=\.[A-Z][^.])|.*?\n", page_wiki.summary)
         paragraph = [el for el in paragraph if el != ""]
         for el in paragraph:
@@ -97,8 +111,8 @@ if subject != "":
                 presence_penalty,
             )[0]
             paraphrase_fr = trad_deepl.traduction(paraphrase, "EN", "FR")
-            st.session_state["form"] += paraphrase_fr + "\n\n"
+            st.session_state["bio"] += paraphrase_fr + "\n\n"
 
-    st.write(st.session_state["form"])
+    st.write(st.session_state["bio"])
 
     st.session_state["first_time"] = False
