@@ -187,4 +187,4 @@ def get_PAA(entity, nb_layer=1):
 
 
 if __name__ == "__main__":
-    print(get_PAA("Saumon fumé", 1))
+    print(get_PAA("saumon fumé", 1))

@@ -8,7 +8,7 @@ import trad_deepl
 # Creation of a streamlit application to generated an article from a 750g recipe.
 
 st.set_page_config(
-    page_title="750g food article generator", page_icon=":apple:",
+    page_title="Générateur d'article à partir d'une recette", page_icon=":apple:",
 )
 
 if "first_time" not in st.session_state:
@@ -137,8 +137,9 @@ if url != "":
         st.write("Avantages :")
         if st.button("Run Avantages") or st.session_state["first_time"]:
             benefits = GPT3.gen_article(
-                ">Write a list of the recipe benefits.",
-                st.session_state["main_text"],
+                st.session_state["main_text"]
+                + "\n\n"
+                + ">Write a list of the recipe benefits.",
                 st.session_state["nb_tokens"],
                 temperature,
                 top_p,
@@ -156,7 +157,6 @@ if url != "":
             ">Come up with a list of catchy titles for"
             + st.session_state["title"]
             + "recipe.",
-            None,
             st.session_state["nb_tokens"],
             temperature,
             top_p,
@@ -169,24 +169,27 @@ if url != "":
     if st.button("🔄 Introduction") or st.session_state["first_time"]:
         introduction = (
             GPT3.gen_article(
-                ">write a relatable story about why someone should make these "
+                st.session_state["input_text"]
+                + "\n\n"
+                + ">write a relatable story about why someone should make these "
                 + st.session_state["title"],
-                st.session_state["input_text"],
                 st.session_state["nb_tokens"],
                 temperature,
                 top_p,
                 frequency_penalty,
             )[0]
             + GPT3.gen_article(
-                ">Introduce the recipe and its benefits.",
-                st.session_state["input_text"],
+                st.session_state["input_text"]
+                + "\n\n"
+                + ">Introduce the recipe and its benefits.",
                 st.session_state["nb_tokens"],
             )[0]
             + GPT3.gen_article(
-                ">Write a paragraph about how to store the "
+                st.session_state["input_text"]
+                + "\n\n"
+                + ">Write a paragraph about how to store the "
                 + st.session_state["title"]
                 + " and how long it keeps.",
-                st.session_state["input_text"],
                 st.session_state["nb_tokens"],
                 temperature,
                 top_p,
@@ -214,10 +217,11 @@ if url != "":
                 {ord(c): None for c in ["\t", "\n"]}
             )
             st.session_state[ingredient] = GPT3.gen_article(
-                ">Write a paragraph about why this ingredient works for this recipe.\n>Write a paragraph about "
+                st.session_state["input_text"]
+                + "\n\n"
+                + ">Write a paragraph about why this ingredient works for this recipe.\n>Write a paragraph about "
                 + ingredient
                 + " health benefits.",
-                st.session_state["input_text"],
                 st.session_state["nb_tokens"],
                 temperature,
                 top_p,
@@ -240,8 +244,9 @@ if url != "":
     st.write("## Substitutions :")
     if st.button("🔄 Substitutions") or st.session_state["first_time"]:
         substitutions = GPT3.gen_article(
-            ">Write a paragraph about the recipe substitutions.",
-            st.session_state["input_text"],
+            st.session_state["input_text"]
+            + "\n\n"
+            + ">Write a paragraph about the recipe substitutions.",
             st.session_state["nb_tokens"],
             temperature,
             top_p,
@@ -258,8 +263,9 @@ if url != "":
     st.write("## Instructions :")
     if st.button("🔄 Instructions") or st.session_state["first_time"]:
         instructions = GPT3.gen_article(
-            ">write the instructions in a fun and creative way.",
-            st.session_state["input_text"],
+            st.session_state["input_text"]
+            + "\n\n"
+            + ">write the instructions in a fun and creative way.",
             st.session_state["nb_tokens"],
             temperature,
             top_p,
@@ -273,8 +279,7 @@ if url != "":
     st.write("## Conclusion :")
     if st.button("🔄 Conclusion") or st.session_state["first_time"]:
         conclusion = GPT3.gen_article(
-            ">Write a conclusion.",
-            st.session_state["input_text"],
+            st.session_state["input_text"] + "\n\n" + ">Write a conclusion.",
             st.session_state["nb_tokens"],
             temperature,
             top_p,
@@ -299,10 +304,11 @@ if url != "":
                 {ord(c): None for c in ["\t", "\n"]}
             )
             st.session_state[ingredient + "_FAQ"] = GPT3.gen_article(
-                ">Write an FAQ with responses related to the "
+                st.session_state["input_text"]
+                + "\n\n"
+                + ">Write an FAQ with responses related to the "
                 + ingredient
                 + " ingredient.",
-                st.session_state["input_text"],
                 st.session_state["nb_tokens"],
                 temperature,
                 top_p,

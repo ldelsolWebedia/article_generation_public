@@ -5,7 +5,7 @@ import GPT3
 import scraping_selenium
 
 st.set_page_config(
-    page_title="750g PAA food article generator", page_icon=":green_apple:",
+    page_title="Générateur d'article FAQ", page_icon=":green_apple:",
 )
 
 if "first_time" not in st.session_state:
@@ -72,7 +72,6 @@ if subject != "":
     if st.button("🔄 Titres") or st.session_state["first_time"]:
         titles = GPT3.gen_article(
             "Ecris une liste de titres accrocheurs pour un article sur" + subject,
-            None,
             1000,
             temperature,
             top_p,
@@ -85,7 +84,6 @@ if subject != "":
     if st.button("🔄 Introduction") or st.session_state["first_time"]:
         introduction = GPT3.gen_article(
             "Ecris une histoire racontant pourquoi quelqu'un devrait manger " + subject,
-            None,
             1000,
             temperature,
             top_p,
@@ -103,7 +101,6 @@ if subject != "":
             answer = GPT3.gen_article(
                 el["title"]
                 + ">Ecris un long paragraphe pour répondre à cette question.",
-                None,
                 1000,
                 temperature,
                 top_p,
@@ -114,7 +111,6 @@ if subject != "":
                 + ">Ecris un long paragraphe pour répondre à cette question."
                 + answer
                 + ">Argumente le paragraphe précédent.",
-                None,
                 1000,
                 temperature,
                 top_p,
@@ -127,7 +123,6 @@ if subject != "":
     if st.button("🔄 Conclusion") or st.session_state["first_time"]:
         conclusion = GPT3.gen_article(
             "Ecris une conclusion à un article sur " + subject,
-            None,
             1000,
             temperature,
             top_p,

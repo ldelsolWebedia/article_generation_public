@@ -60,7 +60,11 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
             else synopsis,  # cleaning up synopsis with Beautifulsoup in case it is still in html and not just in text
         )
 
-        list_id_legacy_w_duplicates, list_review_w_duplicates, list_rating_w_duplicates = (
+        (
+            list_id_legacy_w_duplicates,
+            list_review_w_duplicates,
+            list_rating_w_duplicates,
+        ) = (
             [],
             [],
             [],
@@ -232,4 +236,4 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
 if __name__ == "__main__":
     # print(gen_movie_article(4, "Série", "Action", "Netflix France"))
     # print(post_ranking_article_to_BQ("Film", "Action", "Amazon Prime Video",2))
-    print(get_top_series_by_genre_and_platform("Action", "Netflix France",4))
+    print(get_top_series_by_genre_and_platform("Action", "Netflix France", 4))
