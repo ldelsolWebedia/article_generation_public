@@ -87,6 +87,7 @@ tzlocal==4.2
 urllib3==1.26.12
 validators==0.20.0
 watchdog==2.1.9
+wikipedia-api==0.5.4
 wincertstore==0.2
 wsproto==1.2.0
 zipp==3.8.1
