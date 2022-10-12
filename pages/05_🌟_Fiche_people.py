@@ -1,7 +1,9 @@
-import pyperclip
 import streamlit as st
 import re
 import wikipediaapi
+from bokeh.models.widgets import Button
+from bokeh.models import CustomJS
+from streamlit_bokeh_events import streamlit_bokeh_events
 
 import trad_deepl
 import GPT3
@@ -39,20 +41,6 @@ def callback():
 
 st.write("### Entrez le sujet de la fiche people")
 subject = st.text_input("Sujet", on_change=callback).title()
-
-if st.button("Copier l'article"):
-    try:
-        text_to_be_copied = (
-            "## " + subject + " :"
-            + "\n\n"
-            + "- Naissance :"
-            + st.session_state["info"]
-            + "\n"
-            + st.session_state["bio"]
-        )
-        pyperclip.copy(text_to_be_copied)
-    except:
-        st.write("## Erreur : Il n'y a pas de fiche à copier")
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
@@ -114,5 +102,27 @@ if subject != "":
             st.session_state["bio"] += paraphrase_fr + "\n"
 
     st.write(st.session_state["bio"])
+
+    st.session_state["text_to_be_copied"] = (
+        "## " + subject + " :"
+        + "\n\n"
+        + "- Naissance :"
+        + st.session_state["info"]
+        + "\n"
+        + st.session_state["bio"]
+    )
+    
+    copy_button = Button(label="Copier l'article")
+    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+        navigator.clipboard.writeText(text);
+        """))
+
+    no_event = streamlit_bokeh_events(
+        copy_button,
+        events="GET_TEXT",
+        key="get_text",
+        refresh_on_update=True,
+        override_height=75,
+        debounce_time=0)
 
     st.session_state["first_time"] = False
