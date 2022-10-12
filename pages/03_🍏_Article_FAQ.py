@@ -22,7 +22,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Cette application permet de générer une ébauche d'article FAQ à partir d'un sujet choisi.
 -   L'article se génère automatiquement dès que vous rentrez un sujet.
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
--   Pour copier l'article généré appuyez sur le bouton 'Copier l'article'.
+-   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
 -   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
 -   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
 -   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
