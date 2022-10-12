@@ -47,7 +47,7 @@ if st.button("Copier l'article"):
             + "\n\n"
             + "- Naissance :"
             + st.session_state["info"]
-            + "\n\n"
+            + "\n"
             + st.session_state["bio"]
         )
         pyperclip.copy(text_to_be_copied)
@@ -111,7 +111,7 @@ if subject != "":
                 presence_penalty,
             )[0]
             paraphrase_fr = trad_deepl.traduction(paraphrase, "EN", "FR")
-            st.session_state["bio"] += paraphrase_fr + "\n\n"
+            st.session_state["bio"] += paraphrase_fr + "\n"
 
     st.write(st.session_state["bio"])
 
