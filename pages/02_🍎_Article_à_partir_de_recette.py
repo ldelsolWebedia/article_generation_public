@@ -1,5 +1,8 @@
 import pyperclip
 import streamlit as st
+from bokeh.models.widgets import Button
+from bokeh.models import CustomJS
+from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
 import scrap_750g_recipe
@@ -59,7 +62,19 @@ if st.button("Copier l'article"):
             + st.session_state["Conclusion"]
             + st.session_state["FAQ"]
         )
-        pyperclip.copy(text_to_be_copied)
+
+        copy_button = Button(label="Copier l'article")
+        copy_button.js_on_event("button_click", CustomJS(args={"text" : text_to_be_copied}, code="""
+            navigator.clipboard.writeText(text);
+            """))
+
+        no_event = streamlit_bokeh_events(
+            copy_button,
+            events="GET_TEXT",
+            key="get_text",
+            refresh_on_update=True,
+            override_height=75,
+            debounce_time=0)
     else:
         st.write("## Erreur : Il n'y a pas d'article à copier")
 
