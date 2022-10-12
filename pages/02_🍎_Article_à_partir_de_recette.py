@@ -26,7 +26,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Cette application permet de générer une ébauche d'article à partir d'un lien d'une recette de 750g.
 -   L'article se génère automatiquement dès que vous entrez une URL.
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
--   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' sous l'URL.
+-   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
 -   Le Input text est le texte utilisé pour générer les parties de l'article.
 -   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
 -   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
@@ -46,37 +46,6 @@ def callback():
 st.write("### Entrez l'URL d'une recette de 750g")
 url = st.text_input("URL", on_change=callback)
 # url = "https://www.750g.com/cookies-aux-pepites-de-chocolat-r89377.htm"
-
-if st.button("Copier l'article"):
-    if "Titles" in st.session_state:
-        text_to_be_copied = (
-            st.session_state["Titles"]
-            + st.session_state["Introduction"]
-            + "\n\n"
-            + st.session_state["ingredients_overview"]
-            + st.session_state["Substitutions"]
-            + "\n\n"
-            + st.session_state["Ingredients"]
-            + "\n"
-            + st.session_state["Instructions"]
-            + st.session_state["Conclusion"]
-            + st.session_state["FAQ"]
-        )
-
-        copy_button = Button(label="Copier l'article")
-        copy_button.js_on_event("button_click", CustomJS(args={"text" : text_to_be_copied}, code="""
-            navigator.clipboard.writeText(text);
-            """))
-
-        no_event = streamlit_bokeh_events(
-            copy_button,
-            events="GET_TEXT",
-            key="get_text",
-            refresh_on_update=True,
-            override_height=75,
-            debounce_time=0)
-    else:
-        st.write("## Erreur : Il n'y a pas d'article à copier")
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
@@ -342,5 +311,32 @@ if url != "":
         st.session_state["FAQ"] = FAQ
 
     st.write(st.session_state["FAQ"])
+
+    st.session_state["text_to_be_copied"] = (
+            st.session_state["Titles"]
+            + st.session_state["Introduction"]
+            + "\n\n"
+            + st.session_state["ingredients_overview"]
+            + st.session_state["Substitutions"]
+            + "\n\n"
+            + st.session_state["Ingredients"]
+            + "\n"
+            + st.session_state["Instructions"]
+            + st.session_state["Conclusion"]
+            + st.session_state["FAQ"]
+        )
+    
+    copy_button = Button(label="Copier l'article")
+    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+        navigator.clipboard.writeText(text);
+        """))
+
+    no_event = streamlit_bokeh_events(
+        copy_button,
+        events="GET_TEXT",
+        key="get_text",
+        refresh_on_update=True,
+        override_height=75,
+        debounce_time=0)
 
     st.session_state["first_time"] = False
