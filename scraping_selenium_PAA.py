@@ -28,9 +28,9 @@ def get_PAA(entity, nb_layer=1):
         list: a list of the scraped PAA
     """
 
-    op = webdriver.ChromeOptions()
-    op.add_argument("headless")
-    driver = webdriver.Chrome(options=op)
+    # op = webdriver.ChromeOptions()
+    # op.add_argument("headless")
+    driver = webdriver.Chrome()
 
     dict_list = []  # list to return
     nb_paa = 0
