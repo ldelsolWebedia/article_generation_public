@@ -38,11 +38,11 @@ def get_JV(entity):
         + "window.scrollBy(0, elementTop-(viewPortHeight/2));"
     )
 
-    # opts = webdriver.ChromeOptions()
-    # opts.add_argument("headless")
+    opts = webdriver.ChromeOptions()
+    opts.add_argument("headless")
     # op.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
     # driver = webdriver.Chrome(options=op)
-    driver = uc.Chrome(version_main=105)
+    driver = uc.Chrome(version_main=105,options=opts)
 
     # time.sleep(uniform(2,4))
     # ic(driver.execute_script("return navigator.userAgent"))

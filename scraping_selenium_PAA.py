@@ -30,7 +30,7 @@ def get_PAA(entity, nb_layer=1):
 
     op = webdriver.ChromeOptions()
     op.add_argument("headless")
-    driver = webdriver.Chrome()
+    driver = webdriver.Chrome(options=op)
 
     dict_list = []  # list to return
     nb_paa = 0
