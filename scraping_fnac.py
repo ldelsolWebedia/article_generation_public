@@ -70,7 +70,16 @@ def get_JV(entity):
 
     WebDriverWait(driver, 10)
 
-    return(driver.find_element(By.CSS_SELECTOR, 'div[class="fpBulletPointReadMore"]').text)
+    features = ''
+
+    for row in driver.find_elements(By.CSS_SELECTOR, 'tr[class="table__row"]'):
+        if row.find_elements(By.CSS_SELECTOR, 'th[class="table__cell"]') != []:
+            if row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text in ['Date de sortie marché','Editeur','Genre du jeu vidéo','PEGI - Public']:
+                if row.find_elements(By.CSS_SELECTOR, 'td[class="table__cell"]') != []:
+                    features += f"""- {row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text} : {row.find_element(By.CSS_SELECTOR, 'td[class="table__cell"]').text}\n"""
+
+
+    return(features)
 
 if __name__ == "__main__":
     ic(get_JV("elden ring"))

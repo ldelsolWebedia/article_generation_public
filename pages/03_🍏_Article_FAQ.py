@@ -4,7 +4,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
-import scraping_selenium
+import scraping_selenium_PAA
 
 st.set_page_config(
     page_title="Générateur d'article FAQ", page_icon=":green_apple:",
@@ -79,7 +79,7 @@ if subject != "":
     st.write(st.session_state["Introduction"])
 
     if st.session_state["first_time"]:
-        st.session_state["PAA"] = scraping_selenium.get_PAA(subject, nb_layer)
+        st.session_state["PAA"] = scraping_selenium_PAA.get_PAA(subject, nb_layer)
 
     for el in st.session_state["PAA"]:
         st.write("## " + el["title"] + " :\n")

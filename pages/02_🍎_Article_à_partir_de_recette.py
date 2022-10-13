@@ -4,7 +4,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
-import scrap_750g_recipe
+import scraping_bs4_750g_recipe
 import trad_deepl
 
 # Creation of a streamlit application to generated an article from a 750g recipe.
@@ -88,7 +88,7 @@ if url != "":
         #     dict_ (dict): a dictionnary with all the scrap informations
         #     nb_tokens (int): the number of tokens used for this text.
 
-        dict_ = scrap_750g_recipe.get_recipe(url)
+        dict_ = scraping_bs4_750g_recipe.get_recipe(url)
         title = trad_deepl.traduction(dict_["title"], "FR", "EN-GB")
         nb_tokens = 2000
 
