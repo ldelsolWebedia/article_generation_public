@@ -3,7 +3,7 @@ import re
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
-import scraping_bs4_fnac
+import scraping_bs4_Amazon
 
 import trad_deepl
 import GPT3
@@ -61,7 +61,7 @@ if subject != "":
 
     if st.session_state["first_time"]:
 
-        st.session_state["features"] = scraping_bs4_fnac.get_JV("elden ring")
+        st.session_state["features"] = scraping_bs4_Amazon.get_JV("elden ring")
 
     st.write(st.session_state["features"])
 
