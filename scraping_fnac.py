@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from random import randint, uniform
 from icecream import ic
-import undetected_chromedriver.v2 as uc
+# import undetected_chromedriver as uc
 
 """
 Scrap information from People Also Ask linked to the chosen entity.
@@ -38,45 +38,64 @@ def get_JV(entity):
         + "window.scrollBy(0, elementTop-(viewPortHeight/2));"
     )
 
-    opts = webdriver.ChromeOptions()
-    opts.add_argument("headless")
-    # op.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
+    # opts = webdriver.ChromeOptions()
+    # opts.add_argument("headless")
+    # opts.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
     # driver = webdriver.Chrome(options=op)
-    driver = uc.Chrome(options=opts)
+
+
+    options = webdriver.ChromeOptions() 
+    options.add_argument("start-maximized")
+    # options.add_argument("headless")
+    options.add_argument('--disable-blink-features=AutomationControlled')
+    options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
+    options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    options.add_experimental_option('useAutomationExtension', False)
+    driver = webdriver.Chrome(options=options,executable_path='chromedriver.exe')
+    driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
+    driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
+    print(driver.execute_script("return navigator.userAgent;"))
+
+
+    # driver = uc.Chrome(version_main=105)
 
     # time.sleep(uniform(2,4))
     # ic(driver.execute_script("return navigator.userAgent"))
 
-    driver.get("https://www.cdiscount.com/")
+    driver.get("https://www.amazon.fr/s?k=" + entity + " jeu")
     # driver.get("https://www.fnac.com/")
     # time.sleep(uniform(2,4))
 
     WebDriverWait(driver, 10)
 
-    driver.find_element(By.CSS_SELECTOR, 'input[type="search"]').send_keys(entity)
-    # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(entity)
-    # time.sleep(uniform(2,4))
-    driver.find_element(By.CSS_SELECTOR, 'input[type="search"]').send_keys(Keys.RETURN)
-    # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(Keys.RETURN)
-    # time.sleep(uniform(1,2))
+    driver.find_element(By.CSS_SELECTOR, 'span[id="a-autoid-0"]').click()
 
-    WebDriverWait(driver, 10)
+    # driver.find_element(By.CSS_SELECTOR, 'input[id="twotabsearchtextbox"]').send_keys(entity)
+    # # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(entity)
+    # # time.sleep(uniform(2,4))
+    # driver.find_element(By.CSS_SELECTOR, 'input[id="twotabsearchtextbox"]').send_keys(Keys.RETURN)
+    # # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(Keys.RETURN)
+    # # time.sleep(uniform(1,2))
 
-    driver.execute_script(scrollElementIntoMiddle, driver.find_element(By.CSS_SELECTOR, 'span[class="prdtTit"]'))
+    # WebDriverWait(driver, 10)
+
+    driver.execute_script(scrollElementIntoMiddle, driver.find_element(By.CSS_SELECTOR, 'a[class="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"]'))
 
     time.sleep(0.3)
 
-    driver.find_element(By.CSS_SELECTOR, 'span[class="prdtTit"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'a[class="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"]').click()
 
     WebDriverWait(driver, 10)
 
     features = ''
+    features = driver.find_element(By.CSS_SELECTOR, 'div[id="detailBullets_feature_div"]').text
 
-    for row in driver.find_elements(By.CSS_SELECTOR, 'tr[class="table__row"]'):
-        if row.find_elements(By.CSS_SELECTOR, 'th[class="table__cell"]') != []:
-            if row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text in ['Date de sortie marché','Editeur','Genre du jeu vidéo','PEGI - Public']:
-                if row.find_elements(By.CSS_SELECTOR, 'td[class="table__cell"]') != []:
-                    features += f"""- {row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text} : {row.find_element(By.CSS_SELECTOR, 'td[class="table__cell"]').text}\n"""
+    # for row in driver.find_elements(By.CSS_SELECTOR, 'tr[class="table__row"]'):
+    #     if row.find_elements(By.CSS_SELECTOR, 'th[class="table__cell"]') != []:
+    #         if row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text in ['Date de sortie marché','Editeur','Genre du jeu vidéo','PEGI - Public']:
+    #             if row.find_elements(By.CSS_SELECTOR, 'td[class="table__cell"]') != []:
+    #                 features += f"""- {row.find_element(By.CSS_SELECTOR, 'th[class="table__cell"]').text} : {row.find_element(By.CSS_SELECTOR, 'td[class="table__cell"]').text}\n"""
 
 
     return(features)
