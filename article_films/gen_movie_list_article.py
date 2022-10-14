@@ -1,8 +1,8 @@
 import datetime
 
-from article_films import BQ
+# from article_films import BQ
 
-# import BQ
+import BQ
 import deepl
 import streamlit as st
 from icecream import ic
@@ -12,9 +12,7 @@ translator = deepl.Translator(st.secrets["DEEPL_KEY"])
 
 def get_top_series_by_genre_and_platform(genre, platform, max):
 
-    ic("test1")
     df_top = BQ.fetch_top_series_by_genre_and_platform(genre, platform, max)
-    ic("test2")
     list_id = list(df_top["id_series"])
     list_FR_title = list(df_top["FR_title"])
     list_original_title = list(df_top["original_title"])
@@ -24,22 +22,18 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
     """.format(
         max, genre, platform
     )
-    for i in range(len(list_original_title)):
+    for k in range(len(list_original_title)):
+        i = len(list_original_title) - (k + 1)
         df_synopsis = BQ.fetch_series_synopsis_to_translate(int(list_id[i]))
-        ic("test3")
         if "synopsis" in df_synopsis:
             synopsis = df_synopsis["synopsis"][0]
         else:
             synopsis = "Pas de synopsis disponible pour cette série."
-        ic(list_original_title[i])
-        ic(int(list_id[i]))
         df_reviews = BQ.fetch_reviews_by_series_id(int(list_id[i]))
-        ic("test4")
         list_rating = df_reviews["rating"]
         list_review = df_reviews["review"]
         list_id_legacy = df_reviews["id_legacy"]
         nb_ratings = BQ.fetch_number_of_ratings_series(int(list_id[i]))
-        ic("test5")
         article += """
 
 ## {} / {}{} ({} / 5 étoiles, {} notes)
@@ -103,7 +97,8 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
     """.format(
         max, genre, platform
     )
-    for i in range(len(list_original_title)):
+    for k in range(len(list_original_title)):
+        i = len(list_original_title) - (k + 1)
         df_synopsis = BQ.fetch_movie_synopsis_to_translate(int(list_id[i]))
         if "synopsis" in df_synopsis:
             synopsis = df_synopsis["synopsis"][0]
@@ -234,6 +229,6 @@ def gen_movie_article(nb_entities, entity_type, genre, provider):
 
 
 if __name__ == "__main__":
-    # print(gen_movie_article(4, "Série", "Action", "Netflix France"))
+    ic(gen_movie_article(2, "Film", "Action", "Netflix France"))
     # print(post_ranking_article_to_BQ("Film", "Action", "Amazon Prime Video",2))
-    print(get_top_series_by_genre_and_platform("Action", "Netflix France", 4))
+    # ic(get_top_series_by_genre_and_platform("Action", "Netflix France", 2))

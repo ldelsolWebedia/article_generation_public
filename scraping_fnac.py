@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 from random import randint, uniform
 from icecream import ic
-# import undetected_chromedriver as uc
+import undetected_chromedriver as uc
 
 """
 Scrap information from People Also Ask linked to the chosen entity.
@@ -48,7 +48,6 @@ def get_JV(entity):
     options.add_argument("start-maximized")
     # options.add_argument("headless")
     options.add_argument('--disable-blink-features=AutomationControlled')
-    options.add_argument('--no-first-run --no-service-autorun --password-store=basic')
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
@@ -63,33 +62,44 @@ def get_JV(entity):
     # time.sleep(uniform(2,4))
     # ic(driver.execute_script("return navigator.userAgent"))
 
-    driver.get("https://www.amazon.fr/s?k=" + entity + " jeu")
+    driver.get("https://www.micromania.fr/on/demandware.store/Sites-Micromania-Site/default/Search-Show?q= " + entity + " jeu")
     # driver.get("https://www.fnac.com/")
     # time.sleep(uniform(2,4))
 
     WebDriverWait(driver, 10)
 
-    driver.find_element(By.CSS_SELECTOR, 'span[id="a-autoid-0"]').click()
-
-    # driver.find_element(By.CSS_SELECTOR, 'input[id="twotabsearchtextbox"]').send_keys(entity)
+    # driver.find_element(By.CSS_SELECTOR, 'input[type="search"]').send_keys(entity)
     # # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(entity)
     # # time.sleep(uniform(2,4))
-    # driver.find_element(By.CSS_SELECTOR, 'input[id="twotabsearchtextbox"]').send_keys(Keys.RETURN)
+    # driver.find_element(By.CSS_SELECTOR, 'input[type="search"]').send_keys(Keys.RETURN)
     # # driver.find_element(By.CSS_SELECTOR, 'input[id="Fnac_Search"]').send_keys(Keys.RETURN)
     # # time.sleep(uniform(1,2))
 
-    # WebDriverWait(driver, 10)
+    WebDriverWait(driver, 10)
 
-    driver.execute_script(scrollElementIntoMiddle, driver.find_element(By.CSS_SELECTOR, 'a[class="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"]'))
+    driver.find_element(By.CSS_SELECTOR, 'div[class="refinement-title-wrapper"]').click()
+
+    time.sleep(3)
+
+    driver.find_elements(By.CSS_SELECTOR, 'span[class="fake-checkbox"]')[1].click()
+
+    time.sleep(3)
+
+    driver.find_element(By.CSS_SELECTOR, 'button[class="trustarc-declineall-btn"]').click()
 
     time.sleep(0.3)
 
-    driver.find_element(By.CSS_SELECTOR, 'a[class="a-link-normal s-underline-text s-underline-link-text s-link-style a-text-normal"]').click()
+    driver.execute_script(scrollElementIntoMiddle, driver.find_element(By.CSS_SELECTOR, 'a[class="product-name-link pdp-link "]'))
+
+    time.sleep(0.3)
+
+    driver.find_element(By.CSS_SELECTOR, 'a[class="product-name-link pdp-link "]').click()
+
+    time.sleep(300)
 
     WebDriverWait(driver, 10)
 
-    features = ''
-    features = driver.find_element(By.CSS_SELECTOR, 'div[id="detailBullets_feature_div"]').text
+    features = driver.find_element(By.CSS_SELECTOR, 'table[class="table table-striped w-100"]').text
 
     # for row in driver.find_elements(By.CSS_SELECTOR, 'tr[class="table__row"]'):
     #     if row.find_elements(By.CSS_SELECTOR, 'th[class="table__cell"]') != []:

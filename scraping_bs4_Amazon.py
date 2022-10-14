@@ -1,4 +1,6 @@
 import urllib.request
+from icecream import ic
+import re
 
 from bs4 import BeautifulSoup
 
@@ -52,10 +54,15 @@ def get_JV(entity):
     
     soup = get_html("https://www.amazon.fr" + new_url)
 
-    features = soup.find("div", {"id": "detailBullets_feature_div"}).text
+    features_list = soup.find("div", {"id": "detailBullets_feature_div"})
+
+    features = ""
+    for row in features_list.find_all("span", {"class": "a-list-item"}) :
+        if any(substring in row.text for substring in ["Classé","Date de sortie"]) :
+            features += re.sub('\s{2,}|\u200f|\u200e', '', row.text)
 
     return features
 
 
 if __name__ == "__main__":
-    print(get_JV("FIFA 23"))
+    ic(get_JV("FIFA 23"))

@@ -61,7 +61,7 @@ if subject != "":
 
     if st.session_state["first_time"]:
 
-        st.session_state["features"] = scraping_bs4_Amazon.get_JV("elden ring")
+        st.session_state["features"] = scraping_bs4_Amazon.get_JV(subject)
 
     st.write(st.session_state["features"])
 
