@@ -72,6 +72,8 @@ def get_top_series_by_genre_and_platform(genre, platform, max):
         for j in range(len(list_review_w_duplicates)):
             article += """
 
+### Ce qu'en pense le public :
+
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/serie-{}/]
 
 {} ({} / 5 étoiles)
@@ -141,6 +143,8 @@ def get_top_movies_by_genre_and_platform(genre, platform, max):
 
         for j in range(len(list_review_w_duplicates)):
             article += """
+
+### Ce qu'en pense le public :
 
 [Review from URL : https://www.allocine.fr/membre-{}/critiques/film-{}/]
 
