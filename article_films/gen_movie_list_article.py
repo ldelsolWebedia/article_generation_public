@@ -1,8 +1,8 @@
 import datetime
 
-# from article_films import BQ
+from article_films import BQ
 
-import BQ
+# import BQ
 import deepl
 import streamlit as st
 from icecream import ic
