@@ -82,7 +82,7 @@ if subject != "":
         st.session_state["PAA"] = scraping_selenium_PAA.get_PAA(subject, nb_layer)
 
     for i,el in enumerate(st.session_state["PAA"]):
-        if i==3 :
+        if nb_layer == 2 and i==4 :
             st.write("# Question de niveau 2")
         st.write("## " + el["title"] + " :\n")
         if st.button("🔄 " + el["title"]) or st.session_state["first_time"]:
