@@ -29,13 +29,13 @@ def get_JV_features(entity):
     """
 
     options = webdriver.ChromeOptions() 
-    options.add_argument("start-maximized")
+    # options.add_argument("start-maximized")
     options.add_argument("headless")
-    options.add_argument('--disable-blink-features=AutomationControlled')
+    # options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
-    options.add_experimental_option("excludeSwitches", ["enable-automation"])
-    options.add_experimental_option('excludeSwitches', ['enable-logging'])
-    options.add_experimental_option('useAutomationExtension', False)
+    # options.add_experimental_option("excludeSwitches", ["enable-automation"])
+    # options.add_experimental_option('excludeSwitches', ['enable-logging'])
+    # options.add_experimental_option('useAutomationExtension', False)
     driver = webdriver.Chrome(options=options)
     # driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     # driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
@@ -45,7 +45,7 @@ def get_JV_features(entity):
     WebDriverWait(driver, 10)
     time.sleep(3)
 
-    # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
 
