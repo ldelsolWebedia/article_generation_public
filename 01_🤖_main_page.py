@@ -16,4 +16,5 @@ Veuillez choisir sur le bandeau de gauche la fonctionnalité que vous voulez uti
 - Générateur d'article FAQ
 - Générateur d'article de classement de films/séries
 - Générateur de fiche people
+- Générateur de fiche jeux vidéo
 """
