@@ -34,10 +34,9 @@ def get_JV_summary(entity):
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option('excludeSwitches', ['enable-logging'])
     options.add_experimental_option('useAutomationExtension', False)
-    driver = webdriver.Chrome(options=options,executable_path='chromedriver.exe')
+    driver = webdriver.Chrome(options=options)
     driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
-    print(driver.execute_script("return navigator.userAgent;"))
 
     driver.get("https://www.metacritic.com/search/game/" + entity + "/results")
 
