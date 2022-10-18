@@ -29,6 +29,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
 -   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
 -   La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.
+-   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-de-fiche-jeux-vid-o-47f78ad0bad24d6a8ee1e4888c3851ff
 	    """
     )
 
