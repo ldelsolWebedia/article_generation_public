@@ -41,7 +41,7 @@ def callback():
 
 
 st.write("### Entrez le sujet de la fiche jeux vidéo")
-subject = st.text_input("Sujet", on_change=callback).title()
+subject = st.text_input("Sujet", on_change=callback)
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
