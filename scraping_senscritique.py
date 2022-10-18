@@ -1,4 +1,6 @@
+from ast import Pass
 import re
+from symbol import pass_stmt
 import time
 
 from selenium import webdriver
@@ -27,7 +29,6 @@ def get_JV_features(entity):
     Returns:
         list: a list of the scraped PAA
     """
-
     options = webdriver.ChromeOptions() 
     # options.add_argument("start-maximized")
     options.add_argument("headless")
@@ -45,7 +46,7 @@ def get_JV_features(entity):
     WebDriverWait(driver, 10)
     time.sleep(3)
 
-    # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
 
@@ -67,4 +68,6 @@ def get_JV_features(entity):
     return(features)
 
 if __name__ == "__main__":
+    while True:
+        pass
     ic(get_JV_features("fifa 23"))
