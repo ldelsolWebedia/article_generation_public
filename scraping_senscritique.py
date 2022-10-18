@@ -46,7 +46,7 @@ def get_JV_features(entity):
     # ic(url.replace(' ','%20'))
     # driver.get(url.replace(' ','%20'))
     driver.get("https://www.senscritique.com")
-    driver.set_window_size(1920,1080)
+    driver.set_window_size(1200,800)
 
     WebDriverWait(driver, 10)
     time.sleep(3)
