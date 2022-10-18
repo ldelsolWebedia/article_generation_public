@@ -1,6 +1,4 @@
-from ast import Pass
 import re
-from symbol import pass_stmt
 import time
 
 from selenium import webdriver
@@ -8,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from icecream import ic
 from random import randint
+import streamlit as st
 
 """
 Scrap information from People Also Ask linked to the chosen entity.
@@ -45,6 +44,8 @@ def get_JV_features(entity):
 
     WebDriverWait(driver, 10)
     time.sleep(3)
+    driver.save_screenshot('screenshot1.png')
+    st.image('screenshot1.png')
 
     driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
@@ -68,6 +69,4 @@ def get_JV_features(entity):
     return(features)
 
 if __name__ == "__main__":
-    while True:
-        pass
     ic(get_JV_features("fifa 23"))
