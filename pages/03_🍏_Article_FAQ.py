@@ -81,8 +81,8 @@ if subject != "":
     if st.session_state["first_time"]:
         st.session_state["PAA"] = scraping_selenium_PAA.get_PAA(subject, nb_layer)
 
-    for i,el in enumerate(st.session_state["PAA"]):
-        if nb_layer == 2 and i==4 :
+    for i, el in enumerate(st.session_state["PAA"]):
+        if nb_layer == 2 and i == 4:
             st.write("# Question de niveau 2")
         st.write("## " + el["title"] + " :\n")
         if st.button("🔄 " + el["title"]) or st.session_state["first_time"]:
@@ -128,12 +128,20 @@ if subject != "":
     for el in st.session_state["PAA"]:
         st.session_state["text_to_be_copied"] += "## " + el["title"] + " :\n"
         st.session_state["text_to_be_copied"] += st.session_state[el["title"]] + "\n\n"
-    st.session_state["text_to_be_copied"] += "## Conclusion :" + st.session_state["Conclusion"]
-    
+    st.session_state["text_to_be_copied"] += (
+        "## Conclusion :" + st.session_state["Conclusion"]
+    )
+
     copy_button = Button(label="Copier l'article")
-    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+    copy_button.js_on_event(
+        "button_click",
+        CustomJS(
+            args={"text": st.session_state["text_to_be_copied"]},
+            code="""
         navigator.clipboard.writeText(text);
-        """))
+        """,
+        ),
+    )
 
     no_event = streamlit_bokeh_events(
         copy_button,
@@ -141,6 +149,7 @@ if subject != "":
         key="get_text",
         refresh_on_update=True,
         override_height=75,
-        debounce_time=0)
+        debounce_time=0,
+    )
 
     st.session_state["first_time"] = False

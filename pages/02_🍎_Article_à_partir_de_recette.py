@@ -312,23 +312,29 @@ if url != "":
     st.write(st.session_state["FAQ"])
 
     st.session_state["text_to_be_copied"] = (
-            st.session_state["Titles"]
-            + st.session_state["Introduction"]
-            + "\n\n"
-            + st.session_state["ingredients_overview"]
-            + st.session_state["Substitutions"]
-            + "\n\n"
-            + st.session_state["Ingredients"]
-            + "\n"
-            + st.session_state["Instructions"]
-            + st.session_state["Conclusion"]
-            + st.session_state["FAQ"]
-        )
-    
+        st.session_state["Titles"]
+        + st.session_state["Introduction"]
+        + "\n\n"
+        + st.session_state["ingredients_overview"]
+        + st.session_state["Substitutions"]
+        + "\n\n"
+        + st.session_state["Ingredients"]
+        + "\n"
+        + st.session_state["Instructions"]
+        + st.session_state["Conclusion"]
+        + st.session_state["FAQ"]
+    )
+
     copy_button = Button(label="Copier l'article")
-    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+    copy_button.js_on_event(
+        "button_click",
+        CustomJS(
+            args={"text": st.session_state["text_to_be_copied"]},
+            code="""
         navigator.clipboard.writeText(text);
-        """))
+        """,
+        ),
+    )
 
     no_event = streamlit_bokeh_events(
         copy_button,
@@ -336,6 +342,7 @@ if url != "":
         key="get_text",
         refresh_on_update=True,
         override_height=75,
-        debounce_time=0)
+        debounce_time=0,
+    )
 
     st.session_state["first_time"] = False

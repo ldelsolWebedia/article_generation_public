@@ -106,11 +106,17 @@ if st.session_state["launch"]:
 
 if "article" in st.session_state:
     st.write(st.session_state["article"])
-    
+
     copy_button = Button(label="Copier l'article")
-    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["article"]}, code="""
+    copy_button.js_on_event(
+        "button_click",
+        CustomJS(
+            args={"text": st.session_state["article"]},
+            code="""
         navigator.clipboard.writeText(text);
-        """))
+        """,
+        ),
+    )
 
     no_event = streamlit_bokeh_events(
         copy_button,
@@ -118,4 +124,5 @@ if "article" in st.session_state:
         key="get_text",
         refresh_on_update=True,
         override_height=75,
-        debounce_time=0)
+        debounce_time=0,
+    )

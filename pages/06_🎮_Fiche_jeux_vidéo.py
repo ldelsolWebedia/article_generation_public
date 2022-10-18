@@ -1,5 +1,4 @@
 import streamlit as st
-import re
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
@@ -64,32 +63,40 @@ if subject != "":
         st.session_state["features"] = scraping_senscritique.get_JV_features(subject)
     st.write(st.session_state["features"])
 
-    if  st.button("🔄 Résumé") or st.session_state["first_time"]:
+    if st.button("🔄 Résumé") or st.session_state["first_time"]:
         summary = scraping_metacritic.get_JV_summary(subject)
         summary_paraph = GPT3.gen_article(
-                "Paraphrase the following paragraph, using as few words from the original paragraph as possible:"
-                + "\n\n"
-                + summary,
-                2000,
-                temperature,
-                top_p,
-                frequency_penalty,
-                presence_penalty,
-            )[0]
+            "Paraphrase the following paragraph, using as few words from the original paragraph as possible:"
+            + "\n\n"
+            + summary,
+            2000,
+            temperature,
+            top_p,
+            frequency_penalty,
+            presence_penalty,
+        )[0]
         st.session_state["summary"] = trad_deepl.traduction(summary_paraph, "EN", "FR")
     st.write(st.session_state["summary"])
 
     st.session_state["text_to_be_copied"] = (
-        "## " + subject + " :"
+        "## "
+        + subject
+        + " :"
         + "\n\n"
         + st.session_state["features"]
         + st.session_state["summary"]
     )
-    
+
     copy_button = Button(label="Copier l'article")
-    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+    copy_button.js_on_event(
+        "button_click",
+        CustomJS(
+            args={"text": st.session_state["text_to_be_copied"]},
+            code="""
         navigator.clipboard.writeText(text);
-        """))
+        """,
+        ),
+    )
 
     no_event = streamlit_bokeh_events(
         copy_button,
@@ -97,6 +104,7 @@ if subject != "":
         key="get_text",
         refresh_on_update=True,
         override_height=75,
-        debounce_time=0)
+        debounce_time=0,
+    )
 
     st.session_state["first_time"] = False

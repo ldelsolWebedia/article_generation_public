@@ -62,16 +62,16 @@ if subject != "":
     if st.session_state["first_time"]:
 
         st.session_state["info"] = GPT3.gen_article(
-                "Ecris une liste en donnant dans l'ordre : la date de naissance, le métier, le signe astrologique, le pays de naissance, la ville de naissance de " 
-                + subject
-                + "\n\n"
-                + "- Naissance :",
-                2000,
-                0.00,
-                1.00,
-                0.00,
-                0.00,
-            )[0]
+            "Ecris une liste en donnant dans l'ordre : la date de naissance, le métier, le signe astrologique, le pays de naissance, la ville de naissance de "
+            + subject
+            + "\n\n"
+            + "- Naissance :",
+            2000,
+            0.00,
+            1.00,
+            0.00,
+            0.00,
+        )[0]
 
     st.write("- Naissance :" + st.session_state["info"])
 
@@ -104,18 +104,26 @@ if subject != "":
     st.write(st.session_state["bio"])
 
     st.session_state["text_to_be_copied"] = (
-        "## " + subject + " :"
+        "## "
+        + subject
+        + " :"
         + "\n\n"
         + "- Naissance :"
         + st.session_state["info"]
         + "\n"
         + st.session_state["bio"]
     )
-    
+
     copy_button = Button(label="Copier l'article")
-    copy_button.js_on_event("button_click", CustomJS(args={"text" : st.session_state["text_to_be_copied"]}, code="""
+    copy_button.js_on_event(
+        "button_click",
+        CustomJS(
+            args={"text": st.session_state["text_to_be_copied"]},
+            code="""
         navigator.clipboard.writeText(text);
-        """))
+        """,
+        ),
+    )
 
     no_event = streamlit_bokeh_events(
         copy_button,
@@ -123,6 +131,7 @@ if subject != "":
         key="get_text",
         refresh_on_update=True,
         override_height=75,
-        debounce_time=0)
+        debounce_time=0,
+    )
 
     st.session_state["first_time"] = False
