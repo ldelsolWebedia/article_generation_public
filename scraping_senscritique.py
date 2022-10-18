@@ -46,7 +46,7 @@ def get_JV_features(entity):
     # ic(url.replace(' ','%20'))
     # driver.get(url.replace(' ','%20'))
     driver.get("https://www.senscritique.com")
-    driver.set_window_size(1920,1080)
+    # driver.set_window_size(1920,1080)
 
     WebDriverWait(driver, 10)
     time.sleep(3)
@@ -65,9 +65,9 @@ def get_JV_features(entity):
 
     WebDriverWait(driver, 10)
     time.sleep(2)
-    driver.save_screenshot('screenshot2.png')
-    st.write(driver.current_url)
-    st.image('screenshot2.png')
+    # driver.save_screenshot('screenshot2.png')
+    # st.write(driver.current_url)
+    # st.image('screenshot2.png')
 
     driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
 
