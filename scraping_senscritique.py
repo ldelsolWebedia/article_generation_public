@@ -50,16 +50,16 @@ def get_JV_features(entity):
 
     WebDriverWait(driver, 10)
     time.sleep(3)
+    driver.save_screenshot('screenshot0.png')
+    st.image('screenshot0.png')
     
 
-    # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
+    driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
     time.sleep(3)
-    driver.save_screenshot('screenshot.png')
-    st.write(driver.current_url)
-    ic(driver.current_url)
-    st.image('screenshot.png')
+    driver.save_screenshot('screenshot1.png')
+    st.image('screenshot1.png')
 
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(Keys.RETURN)
