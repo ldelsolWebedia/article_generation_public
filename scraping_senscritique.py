@@ -46,16 +46,20 @@ def get_JV_features(entity):
     # ic(url.replace(' ','%20'))
     # driver.get(url.replace(' ','%20'))
     driver.get("https://www.senscritique.com")
+    driver.set_window_size(1920,1080)
 
     WebDriverWait(driver, 10)
     time.sleep(3)
-    driver.save_screenshot('screenshot1.png')
-    st.write(driver.current_url)
-    st.image('screenshot1.png')
+    
 
     # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
+    time.sleep(3)
+    driver.save_screenshot('screenshot.png')
+    st.write(driver.current_url)
+    ic(driver.current_url)
+    st.image('screenshot.png')
 
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(Keys.RETURN)
