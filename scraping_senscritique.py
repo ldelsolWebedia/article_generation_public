@@ -33,7 +33,7 @@ def get_JV_features(entity):
     # options.add_argument("start-maximized")
     options.add_argument("headless")
     options.add_argument('--no-sandbox')
-    options.add_argument('--disable-dev-shm-usage')  
+    # options.add_argument('--disable-dev-shm-usage')  
     # options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
     # options.add_experimental_option("excludeSwitches", ["enable-automation"])
