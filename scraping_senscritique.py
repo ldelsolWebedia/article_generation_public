@@ -45,8 +45,9 @@ def get_JV_features(entity):
     driver.get(url.replace(' ','%20'))
 
     WebDriverWait(driver, 10)
-    time.sleep(3)
+    time.sleep(5)
     driver.save_screenshot('screenshot1.png')
+    st.write(driver.current_url)
     st.image('screenshot1.png')
 
     driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
