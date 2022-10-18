@@ -7,7 +7,6 @@ from selenium.webdriver.support.ui import WebDriverWait
 from icecream import ic
 from random import randint
 from selenium.webdriver.common.keys import Keys
-import streamlit as st
 
 """
 Scrap information from People Also Ask linked to the chosen entity.
@@ -43,25 +42,15 @@ def get_JV_features(entity):
     # driver.execute_script("Object.defineProperty(navigator, 'webdriver', {get: () => undefined})")
     # driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
 
-    # url = "https://www.senscritique.com/search?filters%5B0%5D%5Bidentifier%5D=universe&filters%5B0%5D%5Bvalue%5D=Jeux&query=" + entity + "&size=16"
-    # url = "https://www.senscritique.com/search?query=" + entity + "&size=16"
-    # ic(url.replace(' ','%20'))
-    # driver.get(url.replace(' ','%20'))
     driver.get("https://www.senscritique.com")
     driver.set_window_size(1200,800)
 
     WebDriverWait(driver, 10)
     time.sleep(3)
-    driver.save_screenshot('screenshot0.png')
-    st.image('screenshot0.png')
     
-
     driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
-    time.sleep(3)
-    driver.save_screenshot('screenshot1.png')
-    st.image('screenshot1.png')
 
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(Keys.RETURN)
@@ -72,7 +61,6 @@ def get_JV_features(entity):
     driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
 
     WebDriverWait(driver, 10)
-    time.sleep(2)
 
     driver.find_element(By.CSS_SELECTOR, 'a[class="Text__SCText-sc-14ie3lm-0 Link__SecondaryLink-sc-1vfcbn2-1 jKqaHS jLGgsY"]').click()
 
