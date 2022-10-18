@@ -29,6 +29,7 @@ def get_JV_summary(entity):
 
     options = webdriver.ChromeOptions() 
     options.add_argument("headless")
+    options.add_argument('--no-sandbox')
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
     driver = webdriver.Chrome(options=options)
 
