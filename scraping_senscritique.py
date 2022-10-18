@@ -30,7 +30,7 @@ def get_JV_features(entity):
     """
     options = webdriver.ChromeOptions() 
     # options.add_argument("start-maximized")
-    options.add_argument("headless")
+    # options.add_argument("headless")
     # options.add_argument('--no-sandbox')
     options.add_argument('--disable-dev-shm-usage')  
     # options.add_argument('--disable-blink-features=AutomationControlled')
@@ -61,6 +61,7 @@ def get_JV_features(entity):
     driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
 
     WebDriverWait(driver, 10)
+    time.sleep(2)
 
     driver.find_element(By.CSS_SELECTOR, 'a[class="Text__SCText-sc-14ie3lm-0 Link__SecondaryLink-sc-1vfcbn2-1 jKqaHS jLGgsY"]').click()
 
@@ -80,4 +81,4 @@ def get_JV_features(entity):
     return(features)
 
 if __name__ == "__main__":
-    ic(get_JV_features("fifa 23"))
+    ic(get_JV_features("horizon forbidden west"))
