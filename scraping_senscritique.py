@@ -46,50 +46,31 @@ def get_JV_features(entity):
     # ic(url.replace(' ','%20'))
     # driver.get(url.replace(' ','%20'))
     driver.get("https://www.senscritique.com")
-    # driver.set_window_size(1920,1080)
+    driver.set_window_size(1920,1080)
 
     WebDriverWait(driver, 10)
     time.sleep(3)
     
-    # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
+
+    driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
-    # time.sleep(3)
+    time.sleep(3)
     driver.save_screenshot('screenshot.png')
     st.write(driver.current_url)
+    ic(driver.current_url)
     st.image('screenshot.png')
-    
-    driver.find_element(By.CSS_SELECTOR, 'div[class="HeaderMobile__WrapperIcon-sc-kou4tr-3 fcSkXs"]').click()
-
-    WebDriverWait(driver, 10)
-    # time.sleep(3)
 
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(Keys.RETURN)
 
     WebDriverWait(driver, 10)
-    time.sleep(3)
-    
-    driver.find_element(By.CSS_SELECTOR, 'p[class="Text__SCText-sc-14ie3lm-0 ehXMwR"]').click()
-
-    WebDriverWait(driver, 10)
-    # time.sleep(2)
-    driver.save_screenshot('screenshot2.png')
-    st.write(driver.current_url)
-    st.image('screenshot2.png')
+    time.sleep(2)
 
     driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
 
     WebDriverWait(driver, 10)
-    # time.sleep(2)
-    driver.save_screenshot('screenshot3.png')
-    st.write(driver.current_url)
-    st.image('screenshot3.png')
-
-    driver.find_element(By.CSS_SELECTOR, 'div[class="ModalCentered__CrossIconWrapper-sc-8vxfze-3 dEufHk"]').click()
-
-    WebDriverWait(driver, 10)
-    # time.sleep(2)
+    time.sleep(2)
 
     driver.find_element(By.CSS_SELECTOR, 'a[class="Text__SCText-sc-14ie3lm-0 Link__SecondaryLink-sc-1vfcbn2-1 jKqaHS jLGgsY"]').click()
 
