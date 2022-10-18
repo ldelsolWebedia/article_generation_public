@@ -43,7 +43,7 @@ def get_JV_features(entity):
     driver.get("https://www.senscritique.com/search?filters%5B0%5D%5Bidentifier%5D=universe&filters%5B0%5D%5Bvalue%5D=Jeux&query=" + entity + "&size=16")
 
     WebDriverWait(driver, 10)
-    time.sleep(3)
+    time.sleep(10)
     driver.save_screenshot('screenshot1.png')
     st.image('screenshot1.png')
 
