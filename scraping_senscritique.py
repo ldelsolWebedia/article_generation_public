@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from icecream import ic
 from random import randint
+from selenium.webdriver.common.keys import Keys
 import streamlit as st
 
 """
@@ -30,7 +31,7 @@ def get_JV_features(entity):
     """
     options = webdriver.ChromeOptions() 
     # options.add_argument("start-maximized")
-    options.add_argument("headless")
+    # options.add_argument("headless")
     # options.add_argument('--disable-blink-features=AutomationControlled')
     options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_"+str(randint(0,15))+"_6) AppleWebKit/5"+str(randint(15,30))+".0 (KHTML, like Gecko) Chrome/"+str(randint(90,105))+".0.4290.88 Safari/5"+str(randint(30,40))+".0")
     # options.add_experimental_option("excludeSwitches", ["enable-automation"])
@@ -41,12 +42,13 @@ def get_JV_features(entity):
     # driver.execute_cdp_cmd('Network.setUserAgentOverride', {"userAgent": 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.53 Safari/537.36'})
 
     # url = "https://www.senscritique.com/search?filters%5B0%5D%5Bidentifier%5D=universe&filters%5B0%5D%5Bvalue%5D=Jeux&query=" + entity + "&size=16"
-    url = "https://www.senscritique.com/search?query=" + entity + "&size=16"
-    ic(url.replace(' ','%20'))
-    driver.get(url.replace(' ','%20'))
+    # url = "https://www.senscritique.com/search?query=" + entity + "&size=16"
+    # ic(url.replace(' ','%20'))
+    # driver.get(url.replace(' ','%20'))
+    driver.get("https://www.senscritique.com")
 
     WebDriverWait(driver, 10)
-    time.sleep(5)
+    time.sleep(3)
     driver.save_screenshot('screenshot1.png')
     st.write(driver.current_url)
     st.image('screenshot1.png')
@@ -54,6 +56,17 @@ def get_JV_features(entity):
     # driver.find_element(By.CSS_SELECTOR, 'span[class="didomi-continue-without-agreeing"]').click()
 
     WebDriverWait(driver, 10)
+
+    driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
+    driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(Keys.RETURN)
+
+    WebDriverWait(driver, 10)
+    time.sleep(2)
+
+    driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
+
+    WebDriverWait(driver, 10)
+    time.sleep(2)
 
     driver.find_element(By.CSS_SELECTOR, 'a[class="Text__SCText-sc-14ie3lm-0 Link__SecondaryLink-sc-1vfcbn2-1 jKqaHS jLGgsY"]').click()
 
