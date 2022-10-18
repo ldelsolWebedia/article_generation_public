@@ -58,7 +58,6 @@ def get_JV_features(entity):
     time.sleep(3)
     driver.save_screenshot('screenshot.png')
     st.write(driver.current_url)
-    ic(driver.current_url)
     st.image('screenshot.png')
 
     driver.find_element(By.CSS_SELECTOR, 'input[id="search"]').send_keys(entity)
@@ -66,6 +65,9 @@ def get_JV_features(entity):
 
     WebDriverWait(driver, 10)
     time.sleep(2)
+    driver.save_screenshot('screenshot2.png')
+    st.write(driver.current_url)
+    st.image('screenshot2.png')
 
     driver.find_element(By.XPATH, '//a[text()="Jeux"]').click()
 
