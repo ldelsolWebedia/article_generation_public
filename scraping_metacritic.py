@@ -44,7 +44,7 @@ def get_JV_summary(entity):
     WebDriverWait(driver, 10)
     time.sleep(2)
 
-    driver.find_element(By.CSS_SELECTOR, 'button[id="onetrust-reject-all-handler"]').click()
+    # driver.find_element(By.CSS_SELECTOR, 'button[id="onetrust-reject-all-handler"]').click()
 
     WebDriverWait(driver, 10)
 
