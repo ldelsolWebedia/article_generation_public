@@ -2,8 +2,8 @@ import streamlit as st
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
-import scraping_senscritique
-import scraping_metacritic
+import scraping.scraping_senscritique as scraping_senscritique
+import scraping.scraping_metacritic as scraping_metacritic
 
 import trad_deepl
 import GPT3

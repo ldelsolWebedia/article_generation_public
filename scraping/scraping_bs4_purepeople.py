@@ -32,13 +32,13 @@ def get_html(url):
 def get_article(url):
 
     """
-    Function that scrap the phone number of an entity.
+    Function that scrap a PurePeople article.
 
     Args:
-        entity (str): the name of the entity.
+        url (str): the url of the article.
 
     Returns:
-        recipe (dict): a dictionary with the name of the entity and its phone number
+        article (dict): a dictionary with all the necessary information
     """
 
     soup = get_html(url)

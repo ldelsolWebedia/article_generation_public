@@ -4,7 +4,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
-import scraping_bs4_750g_recipe
+import scraping.scraping_bs4_750g_recipe as scraping_bs4_750g_recipe
 import trad_deepl
 
 # Creation of a streamlit application to generated an article from a 750g recipe.

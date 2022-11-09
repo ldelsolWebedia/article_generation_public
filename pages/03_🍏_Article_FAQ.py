@@ -4,7 +4,7 @@ from bokeh.models import CustomJS
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
-import scraping_selenium_PAA
+import scraping.scraping_selenium_PAA as scraping_selenium_PAA
 
 st.set_page_config(
     page_title="Générateur d'article FAQ", page_icon=":green_apple:",

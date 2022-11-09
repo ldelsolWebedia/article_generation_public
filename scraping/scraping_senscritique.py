@@ -8,26 +8,18 @@ from icecream import ic
 from random import randint
 from selenium.webdriver.common.keys import Keys
 
-"""
-Scrap information from People Also Ask linked to the chosen entity.
-By clicking on a PAA, other PAAs appear. These new PAAs form a new layer.
-"""
-
-
 def get_JV_features(entity):
 
     """
-    Function that scrapes the People Also Ask from Google
+    Function that scrap the features of a game on senscritic.
 
     Args:
-        entity: the entity to search on Google
-        entity_type: the type of the entity
-        sessions : research volume of the entity
-        nb_layer : the number of PAA layer it will scrap
+        entity (str): the game you want to find.
 
     Returns:
-        list: a list of the scraped PAA
+        features (str): the features of the game chosen.
     """
+
     options = webdriver.ChromeOptions()
     # options.add_argument("start-maximized")
     options.add_argument("headless")

@@ -12,7 +12,6 @@ Scrap information from People Also Ask linked to the chosen entity.
 By clicking on a PAA, other PAAs appear. These new PAAs form a new layer.
 """
 
-
 def get_PAA(entity, nb_layer=1):
 
     """
@@ -20,8 +19,6 @@ def get_PAA(entity, nb_layer=1):
 
     Args:
         entity: the entity to search on Google
-        entity_type: the type of the entity
-        sessions : research volume of the entity
         nb_layer : the number of PAA layer it will scrap
 
     Returns:

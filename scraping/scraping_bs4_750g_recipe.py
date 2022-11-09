@@ -40,13 +40,13 @@ def find_all_entities(soup, html_type, entity):
 def get_recipe(url):
 
     """
-    Function that scrap the phone number of an entity.
+    Function that scrap a 750g recipe.
 
     Args:
-        entity (str): the name of the entity.
+        url (str): the url of the recipe.
 
     Returns:
-        recipe (dict): a dictionary with the name of the entity and its phone number
+        recipe (dict): a dictionary with all the necessary information
     """
 
     soup = get_html(url)
