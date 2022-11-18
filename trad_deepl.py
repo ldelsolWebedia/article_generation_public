@@ -26,4 +26,4 @@ def traduction(text, source_language, target_language):
 
 
 if __name__ == "__main__":
-    print(traduction("1 egg", "EN", "FR"))
+    print(traduction("coche", "es", "fr"))
