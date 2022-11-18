@@ -17,4 +17,6 @@ Veuillez choisir sur le bandeau de gauche la fonctionnalité que vous voulez uti
 - Générateur d'article de classement de films/séries
 - Générateur de fiche people
 - Générateur de fiche jeux vidéo
+- Paraphraseur d'article PurePeople
+- Paraphraseur d'article Jeux Vidéo/Cinéma pour JeuxActu/FilmActu
 """
