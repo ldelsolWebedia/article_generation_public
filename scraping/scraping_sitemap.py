@@ -12,17 +12,6 @@ def sitemap(type) :
 
     if type == "Cinéma" :
         url_list = movies_url
-
-    # with pd.option_context('display.max_rows', None,
-    #                        'display.max_columns', None,
-    #                        'display.precision', 3,
-    #                        ):
-    #     print(sitemap_3djuegos)
-
-    # print(sitemap_gamestar[['news_title','publication_name','news_publication_date','loc']])
-    # print(sitemap_3djuegos[['news_title','publication_name','news_publication_date','loc']])
-
-    # df = pd.concat([sitemap_gamestar[['news_title','publication_name','news_publication_date','loc','publication_language']], sitemap_3djuegos[['news_title','publication_name','news_publication_date','loc','publication_language']],sitemap_mein_mmo[['news_title','publication_name','news_publication_date','loc','publication_language']]])
     
     df = pd.concat([adv.sitemap_to_df(el)[['news_title','publication_name','news_publication_date','loc','publication_language']] for el in url_list])
     df['news_title'] = df['news_title'].apply(html.unescape)

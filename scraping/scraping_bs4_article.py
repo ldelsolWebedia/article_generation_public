@@ -83,10 +83,16 @@ def get_article(url,site):
         for el in article_content.find_all("p", {"class": "bo-p"}) :
             paragraphe_list.append(el.text)
         return(paragraphe_list)
+    
+    if site in ["JV"] and soup.find_all("div", {"class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"}) != []:
+        article_content = soup.find("div", {"class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"})
+        for el in article_content.find_all(p_has_no_class) :
+            paragraphe_list.append(el.text)
+        return(paragraphe_list)
 
     return("Error in the scraping process")
 
 
 if __name__ == "__main__":
-    ic(get_article("https://www.moviepilot.de/news/neues-netflix-meisterwerk-1899-ist-gruseliger-als-dark-und-bringt-euer-hirn-zum-platzen-1138932","MOVIEPILOT NEWS"))
+    ic(get_article("https://www.3djuegos.com/juegos/horizon-forbidden-west/noticias/que-soy-unico-que-tiene-prisa-juegos-mundo-abierto","3DJuegos"))
 

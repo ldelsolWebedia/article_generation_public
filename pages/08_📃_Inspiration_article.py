@@ -96,9 +96,21 @@ def parafrase(title,text) :
     st.write(f"## {title} :")
     if st.button(f"🔄 {title}") or st.session_state["parafrase_process"]:
         parafrase_text = GPT3.gen_article(
-            "Paraphrase the following paragraph, using as few words from the original paragraph as possible:"
-            + "\n\n"
-            + translator.translate_text(text, target_lang="EN-GB").text,
+            """Original: The video of Topen’s dancing has racked up more than 400,000 views since it was posted on YouTube last week, and the plumber says he’s already been approached in public for his autograph.
+Paraphrase: Even though the YouTube video of the dancing plumber was only posted last week, it has already had more than 400,000 views. Topen has become an almost instant celebrity as strangers have even asked him for autographs.
+
+Original: According to Heat magazine, Miley has a list of intense rules for her men-to-be while out on dates. Apparently her assistant arranges what the guy must wear, do, and talk about on the date. She’s also not into flowers, so he’s banned from bringing her those.
+Paraphrase: As stated in Heat magazine, Miley Cyrus has a number of bizarre rules for dating. She’s so specific about what her dates wear, say, and do, that she has her assistant enforce these rules on dates. Cyrus doesn’t even like flowers and won’t let her dates buy them for her.
+
+Original: College admissions officers all advise against writing a college admission essay about something that an applicant learned while stoned or drunk. “But we still get a few of those essays,” a college admissions officer tells me. “We even got the classic one about how the student, while stoned, realized that the solar system is an atom and the earth is an electron. You’ll remember, that conversation occurred in the movie Animal House.
+Paraphrase: College admissions officers generally tell students not to write their admissions essays about a lesson they learned when being stoned or drunk; however, some students still ignore the advice. For instance, one student wrote about the conversation in Animal House, as if it were his own stoned experience, about the solar system as an atom and the earth as an election.
+
+Original: A 68-year-old Gastonia man says he scared off two men in ski masks trying to break in his home with his gun he can keep on his walker. And then he taped a note to his door saying if they try to break in his house again, he will be waiting on them.
+Paraphrase: Two men attempted to break into a 68-year-old man’s home; however, they were scared off by the gun the man kept on his walker. Afterwards, the man taped a note to the door warning that he’d be waiting for the burglars if they came back.
+
+Original: """
+            + translator.translate_text(el, target_lang="EN-GB").text
+            + "\nParaphrase:",
             2000,
             temperature,
             top_p,
