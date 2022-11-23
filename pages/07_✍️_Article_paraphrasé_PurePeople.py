@@ -40,10 +40,10 @@ with st.expander("ℹ️ - About this app", expanded=True):
 def callback():
     st.session_state["first_time"] = True
 
-def parafrase(title,text) :
+def paraphrase(title,text) :
     st.write(f"## {title} :")
     if st.button(f"🔄 {title}") or st.session_state["first_time"]:
-        parafrase_text = GPT3.gen_article(
+        paraphrase_text = GPT3.gen_article(
             "Paraphrase the following paragraph, using as few words from the original paragraph as possible:"
             + "\n\n"
             + trad_deepl.traduction(text, "FR", "EN-GB"),
@@ -53,7 +53,7 @@ def parafrase(title,text) :
             frequency_penalty,
             presence_penalty,
         )[0]
-        st.session_state[title] = trad_deepl.traduction(parafrase_text, "EN", "FR")
+        st.session_state[title] = trad_deepl.traduction(paraphrase_text, "EN", "FR")
 
     st.write(st.session_state[title])
 
@@ -80,11 +80,11 @@ if url != "":
     if st.session_state["first_time"]:
         st.session_state["scrap_article"] = scraping_bs4_purepeople.get_article(url)
 
-    parafrase("Titre",st.session_state["scrap_article"]["title"])
-    parafrase("Résumé",st.session_state["scrap_article"]["summary"])
+    paraphrase("Titre",st.session_state["scrap_article"]["title"])
+    paraphrase("Résumé",st.session_state["scrap_article"]["summary"])
     paragraphe = st.session_state["scrap_article"]["main_text"].split("\n")
     for i,el in enumerate([el for el in paragraphe if el != '']) :
-        parafrase(f"Paragraphe {i+1}",el)
+        paraphrase(f"Paragraphe {i+1}",el)
 
     st.session_state["text_to_be_copied"] = (
         st.session_state["Titre"]

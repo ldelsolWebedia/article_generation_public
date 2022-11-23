@@ -92,10 +92,10 @@ def aggrid_interactive_table(df):
 
     return selection
 
-def parafrase(title,text) :
+def paraphrase(title,text) :
     st.write(f"## {title} :")
-    if st.button(f"🔄 {title}") or st.session_state["parafrase_process"]:
-        parafrase_text = GPT3.gen_article(
+    if st.button(f"🔄 {title}") or st.session_state["paraphrase_process"]:
+        paraphrase_text = GPT3.gen_article(
             """Original: The video of Topen’s dancing has racked up more than 400,000 views since it was posted on YouTube last week, and the plumber says he’s already been approached in public for his autograph.
 Paraphrase: Even though the YouTube video of the dancing plumber was only posted last week, it has already had more than 400,000 views. Topen has become an almost instant celebrity as strangers have even asked him for autographs.
 
@@ -117,7 +117,7 @@ Original: """
             frequency_penalty,
             presence_penalty,
         )[0]
-        st.session_state[title] = translator.translate_text(parafrase_text, target_lang="FR").text
+        st.session_state[title] = translator.translate_text(paraphrase_text, target_lang="FR").text
         st.session_state[title + "traduit"] = translator.translate_text(text, target_lang="FR").text
 
     st.write("### Paragraphe traduit")
@@ -146,8 +146,11 @@ if st.session_state["first_time"]:
 
     st.session_state["sitemap"] = st.session_state["sitemap"].head(nb_entities)
     
-    object_list = translator.translate_text(st.session_state["sitemap"]['news_title'], target_lang="FR")
-    st.session_state["sitemap"]['news_title'] = [obj.text for obj in object_list]
+    if entity != "" and len(st.session_state["sitemap"]) != 0 :
+        object_list = translator.translate_text(st.session_state["sitemap"]['news_title'], target_lang="FR")
+        st.session_state["sitemap"]['news_title'] = [obj.text for obj in object_list]
+    else :
+        st.write("### Pas d'article trouvé. Veuillez vérifier l'orthographe de votre recherche.")
 
 selection = aggrid_interactive_table(df=st.session_state["sitemap"])
 
@@ -158,7 +161,7 @@ if selection["selected_rows"] != []:
 
     if st.button("paraphraser l'article") :
 
-        st.session_state["parafrase_process"] = True
+        st.session_state["paraphrase_process"] = True
 
         st.session_state["title"] = selection["selected_rows"][0]['news_title']
 
@@ -169,7 +172,7 @@ if selection["selected_rows"] != []:
         st.session_state["paragraphe_list"] = [el for el in st.session_state["paragraphe_list"] if el != '']
         
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
-            parafrase(f"Paragraphe {i+1}",el)
+            paraphrase(f"Paragraphe {i+1}",el)
         
         st.session_state["text_to_be_copied"] = (
             st.session_state["title"]
@@ -178,14 +181,14 @@ if selection["selected_rows"] != []:
         for i in range(len(st.session_state["paragraphe_list"])) :
             st.session_state["text_to_be_copied"] += st.session_state[f"Paragraphe {i+1}"]
         
-        st.session_state["parafrase_process"] = False
+        st.session_state["paraphrase_process"] = False
     
     elif st.session_state["paragraphe_list"] != []:
 
         st.write("# " + st.session_state["title"])
         
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
-            parafrase(f"Paragraphe {i+1}",el)
+            paraphrase(f"Paragraphe {i+1}",el)
 
 # st.write(st.session_state["first_time"])
 
