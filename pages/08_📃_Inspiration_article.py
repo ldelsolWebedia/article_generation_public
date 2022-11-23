@@ -9,6 +9,7 @@ import scraping.scraping_sitemap as scraping_sitemap
 import scraping.scraping_bs4_article as scraping_bs4_article
 import GPT3
 import deepl
+from unidecode import unidecode
 
 # Creation of a streamlit application to generated an article from a 750g recipe.
 
@@ -146,7 +147,7 @@ if st.session_state["first_time"]:
 
     st.session_state["sitemap"] = st.session_state["sitemap"].head(nb_entities)
     
-    if entity != "" and len(st.session_state["sitemap"]) != 0 :
+    if entity == "" or (entity != "" and len(st.session_state["sitemap"]) != 0) :
         object_list = translator.translate_text(st.session_state["sitemap"]['news_title'], target_lang="FR")
         st.session_state["sitemap"]['news_title'] = [obj.text for obj in object_list]
     else :
