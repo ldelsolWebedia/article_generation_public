@@ -9,7 +9,7 @@ import scraping.scraping_sitemap as scraping_sitemap
 import scraping.scraping_bs4_article as scraping_bs4_article
 import GPT3
 import deepl
-from unidecode import unidecode
+# from unidecode import unidecode
 
 # Creation of a streamlit application to generated an article from a 750g recipe.
 
