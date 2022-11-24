@@ -19,4 +19,4 @@ def sitemap(type) :
     return(df)
 
 if __name__ == "__main__" :
-    print(sitemap("Cinéma"))
+    print(sitemap("Jeux vidéo"))

@@ -96,21 +96,22 @@ def aggrid_interactive_table(df):
 def paraphrase(title,text) :
     st.write(f"## {title} :")
     if st.button(f"🔄 {title}") or st.session_state["paraphrase_process"]:
-        paraphrase_text = GPT3.gen_article(
-            """Original: The video of Topen’s dancing has racked up more than 400,000 views since it was posted on YouTube last week, and the plumber says he’s already been approached in public for his autograph.
-Paraphrase: Even though the YouTube video of the dancing plumber was only posted last week, it has already had more than 400,000 views. Topen has become an almost instant celebrity as strangers have even asked him for autographs.
+        st.session_state[title + "traduit"] = translator.translate_text(text, target_lang="FR").text
+        st.session_state[title] = GPT3.gen_article(
+            """Original: La vidéo de la danse de Topen a été vue plus de 400 000 fois depuis qu'elle a été publiée sur YouTube la semaine dernière, et le plombier dit qu'il a déjà été approché en public pour obtenir son autographe.
+Paraphrase: Bien que la vidéo du plombier dansant n'ait été postée sur YouTube que la semaine dernière, elle a déjà été vue plus de 400 000 fois. Topen est devenu une célébrité presque instantanée, des inconnus lui ayant même demandé un autographe.
 
-Original: According to Heat magazine, Miley has a list of intense rules for her men-to-be while out on dates. Apparently her assistant arranges what the guy must wear, do, and talk about on the date. She’s also not into flowers, so he’s banned from bringing her those.
-Paraphrase: As stated in Heat magazine, Miley Cyrus has a number of bizarre rules for dating. She’s so specific about what her dates wear, say, and do, that she has her assistant enforce these rules on dates. Cyrus doesn’t even like flowers and won’t let her dates buy them for her.
+Original: Selon le magazine Heat, Miley a une liste de règles strictes pour ses futurs hommes lors de ses sorties. Apparemment, son assistant organise ce que le gars doit porter, faire et parler pendant le rendez-vous. Elle n'aime pas non plus les fleurs, il lui est donc interdit de les lui apporter.
+Paraphrase: Comme indiqué dans le magazine Heat, Miley Cyrus a un certain nombre de règles bizarres pour les rendez-vous. Elle est si précise sur ce que ses partenaires doivent porter, dire et faire qu'elle demande à son assistant de faire respecter ces règles lors des rendez-vous. Miley Cyrus n'aime même pas les fleurs et ne laisse pas ses partenaires les acheter pour elle.
 
-Original: College admissions officers all advise against writing a college admission essay about something that an applicant learned while stoned or drunk. “But we still get a few of those essays,” a college admissions officer tells me. “We even got the classic one about how the student, while stoned, realized that the solar system is an atom and the earth is an electron. You’ll remember, that conversation occurred in the movie Animal House.
-Paraphrase: College admissions officers generally tell students not to write their admissions essays about a lesson they learned when being stoned or drunk; however, some students still ignore the advice. For instance, one student wrote about the conversation in Animal House, as if it were his own stoned experience, about the solar system as an atom and the earth as an election.
+Original: Les responsables des admissions à l'université déconseillent tous d'écrire un essai d'admission à l'université sur quelque chose que le candidat a appris en étant défoncé ou ivre. "Mais nous recevons toujours quelques-unes de ces dissertations", me dit un responsable des admissions à l'université. "Nous avons même reçu la dissertation classique dans laquelle l'étudiant, alors qu'il était défoncé, a réalisé que le système solaire était un atome et la terre un électron. Vous vous souviendrez que cette conversation a eu lieu dans le film Animal House.
+Paraphrase: Les responsables des admissions à l'université recommandent généralement aux étudiants de ne pas écrire leur dissertation d'admission sur une leçon apprise lorsqu'ils étaient défoncés ou ivres ; cependant, certains étudiants ignorent toujours ce conseil. Par exemple, un étudiant a écrit sur la conversation dans Animal House, comme s'il s'agissait de sa propre expérience de défoncé, sur le système solaire comme un atome et la terre comme une élection.
 
-Original: A 68-year-old Gastonia man says he scared off two men in ski masks trying to break in his home with his gun he can keep on his walker. And then he taped a note to his door saying if they try to break in his house again, he will be waiting on them.
-Paraphrase: Two men attempted to break into a 68-year-old man’s home; however, they were scared off by the gun the man kept on his walker. Afterwards, the man taped a note to the door warning that he’d be waiting for the burglars if they came back.
+Original: Un homme de Gastonia âgé de 68 ans affirme avoir fait fuir deux hommes masqués qui tentaient de s'introduire chez lui avec son arme qu'il peut garder sur son déambulateur. Il a ensuite collé une note sur sa porte disant que s'ils tentent de pénétrer à nouveau chez lui, il les attendra.
+Paraphrase : Deux hommes ont tenté de s'introduire dans la maison d'un homme de 68 ans, mais ils ont été effrayés par l'arme que l'homme gardait sur son déambulateur. Par la suite, l'homme a collé une note sur la porte pour prévenir qu'il attendrait les cambrioleurs s'ils revenaient.
 
 Original: """
-            + translator.translate_text(el, target_lang="EN-GB").text
+            + st.session_state[title + "traduit"]
             + "\nParaphrase:",
             2000,
             temperature,
@@ -118,8 +119,6 @@ Original: """
             frequency_penalty,
             presence_penalty,
         )[0]
-        st.session_state[title] = translator.translate_text(paraphrase_text, target_lang="FR").text
-        st.session_state[title + "traduit"] = translator.translate_text(text, target_lang="FR").text
 
     st.write("### Paragraphe traduit")
     st.write(st.session_state[title + "traduit"])
@@ -144,6 +143,7 @@ if st.session_state["first_time"]:
 
     if entity != "":
         st.session_state["sitemap"] = st.session_state["sitemap"][st.session_state["sitemap"]['news_title'].str.lower().str.contains(entity.lower())]
+        # st.session_state["sitemap"] = st.session_state["sitemap"].loc[unidecode(st.session_state["sitemap"]['news_title'].str).contains(entity.lower())]
 
     st.session_state["sitemap"] = st.session_state["sitemap"].head(nb_entities)
     
