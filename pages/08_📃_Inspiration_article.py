@@ -94,7 +94,7 @@ def aggrid_interactive_table(df):
     return selection
 
 def paraphrase(title,text) :
-    st.write(f"## {title} :")
+    # st.write(f"## {title} :")
     if st.button(f"🔄 {title}") or st.session_state["paraphrase_process"]:
         st.session_state[title + "traduit"] = translator.translate_text(text, target_lang="FR").text
         st.session_state[title] = GPT3.gen_article(
@@ -120,10 +120,14 @@ Original: """
             presence_penalty,
         )[0]
 
-    st.write("### Paragraphe traduit")
-    st.write(st.session_state[title + "traduit"])
-    st.write("### Paragraphe paraphrasé")
-    st.write(st.session_state[title])
+    col_translate, col_paraphrase = st.columns(2)
+
+    with col_translate:
+        # st.write("### Paragraphe traduit")
+        st.write(st.session_state[title + "traduit"])
+    with col_paraphrase:
+        # st.write("### Paragraphe paraphrasé")
+        st.write(st.session_state[title])
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
@@ -171,7 +175,12 @@ if selection["selected_rows"] != []:
         st.session_state["paragraphe_list"] = scraping_bs4_article.get_article(selection["selected_rows"][0]['loc'],selection["selected_rows"][0]['publication_name'])
 
         st.session_state["paragraphe_list"] = [el for el in st.session_state["paragraphe_list"] if el != '']
-        
+
+        col_translate, col_paraphrase = st.columns(2)
+        with col_translate:
+            st.write("### Paragraphe traduit")
+        with col_paraphrase:
+            st.write("### Paragraphe paraphrasé")
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
             paraphrase(f"Paragraphe {i+1}",el)
         
@@ -180,7 +189,7 @@ if selection["selected_rows"] != []:
         )
 
         for i in range(len(st.session_state["paragraphe_list"])) :
-            st.session_state["text_to_be_copied"] += st.session_state[f"Paragraphe {i+1}"]
+            st.session_state["text_to_be_copied"] += "\n\n" + st.session_state[f"Paragraphe {i+1}"].replace("\n", "")
         
         st.session_state["paraphrase_process"] = False
     
@@ -188,6 +197,11 @@ if selection["selected_rows"] != []:
 
         st.write("# " + st.session_state["title"])
         
+        col_translate, col_paraphrase = st.columns(2)
+        with col_translate:
+            st.write("### Paragraphe traduit")
+        with col_paraphrase:
+            st.write("### Paragraphe paraphrasé")
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
             paraphrase(f"Paragraphe {i+1}",el)
 
@@ -199,7 +213,7 @@ copy_button.js_on_event(
     CustomJS(
         args={"text": st.session_state["text_to_be_copied"]},
         code="""
-    navigator.clipboard.writeText(text + "TEST");
+    navigator.clipboard.writeText(text);
     """,
     ),
 )
