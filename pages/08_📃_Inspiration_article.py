@@ -199,7 +199,7 @@ copy_button.js_on_event(
     CustomJS(
         args={"text": st.session_state["text_to_be_copied"]},
         code="""
-    navigator.clipboard.writeText(text);
+    navigator.clipboard.writeText(text + TEST);
     """,
     ),
 )
