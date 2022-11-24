@@ -161,7 +161,7 @@ selection = aggrid_interactive_table(df=st.session_state["sitemap"])
 
 if selection["selected_rows"] != []:
 
-    st.write("## Article selected:")
+    st.write("## Article sélectionné:")
     st.write(selection["selected_rows"][0]['loc'])
 
     if st.button("paraphraser l'article") :
