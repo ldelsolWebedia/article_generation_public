@@ -38,10 +38,6 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Si vous souhaitez paraphraser l'article séléctionné, vous pouvez appuyer sur le bouton "paraphraser l'article".
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
--   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
--   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
--   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
--   La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.
 	    """
     )
 
@@ -120,26 +116,26 @@ Original: """
             presence_penalty,
         )[0]
 
-    col_translate, col_paraphrase = st.columns(2)
+    col_paraphrase, col_translate = st.columns(2)
 
-    with col_translate:
-        # st.write("### Paragraphe traduit")
-        st.write(st.session_state[title + "traduit"])
     with col_paraphrase:
-        # st.write("### Paragraphe paraphrasé")
         st.write(st.session_state[title])
+    with col_translate:
+        st.write(st.session_state[title + "traduit"])
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
     temperature = st.slider(
-        "temperature", min_value=0.00, max_value=1.00, value=0.70, step=0.01
+        "Temperature : La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.", min_value=0.00, max_value=1.00, value=0.70, step=0.01
     )
-    top_p = st.slider("top_p", min_value=0.00, max_value=1.00, value=1.00, step=0.01)
+    top_p = st.slider(
+        "Top p : Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.", min_value=0.00, max_value=1.00, value=1.00, step=0.01
+    )
     frequency_penalty = st.slider(
-        "frequency_penalty", min_value=0.00, max_value=2.00, value=0.20, step=0.01
+        "Frequency penalty : La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.", min_value=0.00, max_value=2.00, value=0.20, step=0.01
     )
     presence_penalty = st.slider(
-        "presence_penalty", min_value=0.00, max_value=2.00, value=2.00, step=0.01
+        "Presence_penalty : La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.", min_value=0.00, max_value=2.00, value=2.00, step=0.01
     )
 
 if st.session_state["first_time"]:
@@ -176,11 +172,11 @@ if selection["selected_rows"] != []:
 
         st.session_state["paragraphe_list"] = [el for el in st.session_state["paragraphe_list"] if el != '']
 
-        col_translate, col_paraphrase = st.columns(2)
-        with col_translate:
-            st.write("### Paragraphe traduit")
+        col_paraphrase, col_translate = st.columns(2)
         with col_paraphrase:
             st.write("### Paragraphe paraphrasé")
+        with col_translate:
+            st.write("### Paragraphe traduit")
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
             paraphrase(f"Paragraphe {i+1}",el)
         
@@ -197,11 +193,11 @@ if selection["selected_rows"] != []:
 
         st.write("# " + st.session_state["title"])
         
-        col_translate, col_paraphrase = st.columns(2)
-        with col_translate:
-            st.write("### Paragraphe traduit")
+        col_paraphrase, col_translate = st.columns(2)
         with col_paraphrase:
             st.write("### Paragraphe paraphrasé")
+        with col_translate:
+            st.write("### Paragraphe traduit")
         for i,el in enumerate(st.session_state["paragraphe_list"]) :
             paraphrase(f"Paragraphe {i+1}",el)
 
