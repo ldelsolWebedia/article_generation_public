@@ -29,6 +29,7 @@ def get_html(url):
 
     return BeautifulSoup(html, "html.parser")
 
+
 def get_article(url):
 
     """
@@ -43,13 +44,15 @@ def get_article(url):
 
     soup = get_html(url)
 
-    main_text = ''
-    for el in soup.find_all("div", {"class": "rich-text s-article"}) :
+    main_text = ""
+    for el in soup.find_all("div", {"class": "rich-text s-article"}):
         main_text += el.text
 
     article = {
         "title": soup.find("div", {"id": "article-title"}).text,
-        "summary": soup.find("div", {"class": "article__chapo u-padding-top--24px js-ga-insert-point"}).text,
+        "summary": soup.find(
+            "div", {"class": "article__chapo u-padding-top--24px js-ga-insert-point"}
+        ).text,
         "main_text": main_text,
     }
 
@@ -57,5 +60,8 @@ def get_article(url):
 
 
 if __name__ == "__main__":
-    ic(get_article("https://www.purepeople.com/article/isabelle-adjani-retouchee-elle-repond-cash-oui-bien-sur-comme-toutes-les-actrices-francaises_a499728/1"))
-
+    ic(
+        get_article(
+            "https://www.purepeople.com/article/isabelle-adjani-retouchee-elle-repond-cash-oui-bien-sur-comme-toutes-les-actrices-francaises_a499728/1"
+        )
+    )

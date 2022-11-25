@@ -1,6 +1,6 @@
 import streamlit as st
-from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
+from bokeh.models.widgets import Button
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 from article_films import gen_movie_list_article
@@ -23,7 +23,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   L'article se génère automatiquement dès que vous cliquez sur 'Lancer la génération'.
 -   Si un article avec les mêmes paramètres que ceux sélectionnés a été déjà été généré il y a moins de 30 jours, alors il ne sera pas généré à nouveau.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
--   Pour plus d'informations : https://www.notion.so/webedia-group/NLG-PureBreak-5548ceb2db5941648f06e2a00fa0b4c5
+-   Pour plus d'informations : https://www.notion.so/webedia-group/NLG-PureBreak-1b142c88bfc147c581f53c1c75aa1839
 	    """
     )
 

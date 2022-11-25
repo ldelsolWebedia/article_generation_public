@@ -1,12 +1,13 @@
 import re
 import time
+from random import randint
 
+from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from icecream import ic
-from random import randint
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import WebDriverWait
+
 
 def get_JV_features(entity):
 

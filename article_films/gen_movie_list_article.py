@@ -1,11 +1,11 @@
 import datetime
 
-from article_films import BQ
-
 # import BQ
 import deepl
 import streamlit as st
 from icecream import ic
+
+from article_films import BQ
 
 translator = deepl.Translator(st.secrets["DEEPL_KEY"])
 

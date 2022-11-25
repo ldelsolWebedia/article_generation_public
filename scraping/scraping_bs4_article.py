@@ -29,22 +29,26 @@ def get_html(url):
 
     return BeautifulSoup(html, "html.parser")
 
-def p_or_ul_has_no_class(tag) :
-     return tag.name in ["p","ul"] and not tag.has_attr('class')
 
-def p_has_no_class(tag) :
-     return tag.name == "p" and not tag.has_attr('class')
+def p_or_ul_has_no_class(tag):
+    return tag.name in ["p", "ul"] and not tag.has_attr("class")
 
-def get_article(url,site):
+
+def p_has_no_class(tag):
+    return tag.name == "p" and not tag.has_attr("class")
+
+
+def get_article(url, site):
 
     """
-    Function that scrap a PurePeople article.
+    Function that scrap articles from several sites.
 
     Args:
         url (str): the url of the article.
+        site (str): the site of the article.
 
     Returns:
-        article (dict): a dictionary with all the necessary information
+        paragraphe_list (list): the list of the paragraph of the article
     """
 
     soup = get_html(url)
@@ -53,46 +57,78 @@ def get_article(url,site):
 
     # if site in ["GameStar","3DJuegos"] and soup.find_all("div", {"class": "article-content"}) != []:
     #     return(soup.find("div", {"class": "article-content"}).text)
-    
+
     if site == "Mein-MMO" and soup.find_all("div", {"class": "gp-entry-content"}) != []:
         article_content = soup.find("div", {"class": "gp-entry-content"})
-        for el in article_content.find_all(p_or_ul_has_no_class) :
+        for el in article_content.find_all(p_or_ul_has_no_class):
             paragraphe_list.append(el.text)
-        return(paragraphe_list)
+        return paragraphe_list
 
-    if site in ["GameStar","3DJuegos"] and soup.find_all("div", {"class": "article-content"}) != []:
+    if (
+        site in ["GameStar", "3DJuegos"]
+        and soup.find_all("div", {"class": "article-content"}) != []
+    ):
         article_content = soup.find("div", {"class": "article-content"})
-        for el in article_content.find_all(p_or_ul_has_no_class) :
+        for el in article_content.find_all(p_or_ul_has_no_class):
             paragraphe_list.append(el.text)
-        return(paragraphe_list)
-    
-    if site in ["Espinof"] and soup.find_all("div", {"class": "blob js-post-images-container"}) != []:
+        return paragraphe_list
+
+    if (
+        site in ["Espinof"]
+        and soup.find_all("div", {"class": "blob js-post-images-container"}) != []
+    ):
         article_content = soup.find("div", {"class": "blob js-post-images-container"})
-        for el in article_content.find_all(p_or_ul_has_no_class) :
+        for el in article_content.find_all(p_or_ul_has_no_class):
             paragraphe_list.append(el.text)
-        return(paragraphe_list)
-    
-    if site in ["MOVIEPILOT NEWS"] and soup.find_all("div", {"class": "sc-gsDKAQ sc-czc4w4-0 fPGaEA iXAenB"}) != []:
-        article_content = soup.find("div", {"class": "sc-gsDKAQ sc-czc4w4-0 fPGaEA iXAenB"})
-        for el in article_content.find_all(p_has_no_class) :
-            paragraphe_list.append(el.text)
-        return(paragraphe_list)
-    
-    if site in ["SensaCine"] and soup.find_all("div", {"class": "article-content"}) != []:
-        article_content = soup.find("div", {"class": "article-content"})
-        for el in article_content.find_all("p", {"class": "bo-p"}) :
-            paragraphe_list.append(el.text)
-        return(paragraphe_list)
-    
-    if site in ["JV"] and soup.find_all("div", {"class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"}) != []:
-        article_content = soup.find("div", {"class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"})
-        for el in article_content.find_all(p_has_no_class) :
-            paragraphe_list.append(el.text)
-        return(paragraphe_list)
+        return paragraphe_list
 
-    return("Error in the scraping process")
+    if (
+        site in ["MOVIEPILOT NEWS"]
+        and soup.find_all("div", {"class": "sc-gsDKAQ sc-czc4w4-0 fPGaEA iXAenB"}) != []
+    ):
+        article_content = soup.find(
+            "div", {"class": "sc-gsDKAQ sc-czc4w4-0 fPGaEA iXAenB"}
+        )
+        for el in article_content.find_all(p_has_no_class):
+            paragraphe_list.append(el.text)
+        return paragraphe_list
+
+    if (
+        site in ["SensaCine"]
+        and soup.find_all("div", {"class": "article-content"}) != []
+    ):
+        article_content = soup.find("div", {"class": "article-content"})
+        for el in article_content.find_all("p", {"class": "bo-p"}):
+            paragraphe_list.append(el.text)
+        return paragraphe_list
+
+    if (
+        site in ["JV"]
+        and soup.find_all(
+            "div",
+            {
+                "class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"
+            },
+        )
+        != []
+    ):
+        article_content = soup.find(
+            "div",
+            {
+                "class": "corps-article text-enrichi-default js-main-content js-inread nosticky px-3 px-lg-0"
+            },
+        )
+        for el in article_content.find_all(p_has_no_class):
+            paragraphe_list.append(el.text)
+        return paragraphe_list
+
+    return "Error in the scraping process"
 
 
 if __name__ == "__main__":
-    ic(get_article("https://www.3djuegos.com/juegos/horizon-forbidden-west/noticias/que-soy-unico-que-tiene-prisa-juegos-mundo-abierto","3DJuegos"))
-
+    ic(
+        get_article(
+            "https://www.3djuegos.com/juegos/horizon-forbidden-west/noticias/que-soy-unico-que-tiene-prisa-juegos-mundo-abierto",
+            "3DJuegos",
+        )
+    )

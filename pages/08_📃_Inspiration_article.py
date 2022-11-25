@@ -1,23 +1,21 @@
+import deepl
 import streamlit as st
-from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
-from streamlit_bokeh_events import streamlit_bokeh_events
+from bokeh.models.widgets import Button
 from st_aggrid import AgGrid, GridOptionsBuilder
 from st_aggrid.shared import GridUpdateMode
+from streamlit_bokeh_events import streamlit_bokeh_events
 
-import scraping.scraping_sitemap as scraping_sitemap
-import scraping.scraping_bs4_article as scraping_bs4_article
 import GPT3
-import deepl
-# from unidecode import unidecode
+import scraping.scraping_bs4_article as scraping_bs4_article
+import scraping.scraping_sitemap as scraping_sitemap
 
-# Creation of a streamlit application to generated an article from a 750g recipe.
+# from unidecode import unidecode
 
 translator = deepl.Translator(st.secrets["DEEPL_KEY"])
 
 st.set_page_config(
-    page_title="Inspiration article jeux vidéo/cinéma", page_icon="📃",
-    layout="wide",
+    page_title="Inspiration article jeux vidéo/cinéma", page_icon="📃", layout="wide",
 )
 
 if "first_time" not in st.session_state:
@@ -38,6 +36,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Si vous souhaitez paraphraser l'article séléctionné, vous pouvez appuyer sur le bouton "paraphraser l'article".
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
+-   Pour plus d'informations : https://www.notion.so/webedia-group/Inspiration-article-jeux-vid-o-cin-ma-16004507bcae476fa5e3536c7ee6baf1
 	    """
     )
 
@@ -47,18 +46,19 @@ with st.expander("ℹ️ - About this app", expanded=True):
 def callback():
     st.session_state["first_time"] = True
 
+
 col1, col2, col3 = st.columns(3)
 
 with col1:
     nb_entities = st.slider("Nombre d'articles", 1, 50, 10)
-    if st.button("Rafraichir la liste d'articles") :
+    if st.button("Rafraichir la liste d'articles"):
         st.session_state["first_time"] = True
 
 with col2:
-    entity = st.text_input("Mot à filtrer",on_change=callback)
+    entity = st.text_input("Mot à filtrer", on_change=callback)
 
 with col3:
-    theme = st.selectbox("Thème",('Jeux vidéo','Cinéma'),on_change=callback)
+    theme = st.selectbox("Thème", ("Jeux vidéo", "Cinéma"), on_change=callback)
 
 
 def aggrid_interactive_table(df):
@@ -89,10 +89,12 @@ def aggrid_interactive_table(df):
 
     return selection
 
-def paraphrase(title,text) :
-    # st.write(f"## {title} :")
+
+def paraphrase(title, text):
     if st.button(f"🔄 {title}") or st.session_state["paraphrase_process"]:
-        st.session_state[title + "traduit"] = translator.translate_text(text, target_lang="FR").text
+        st.session_state[title + "traduit"] = translator.translate_text(
+            text, target_lang="FR"
+        ).text
         st.session_state[title] = GPT3.gen_article(
             """Original: La vidéo de la danse de Topen a été vue plus de 400 000 fois depuis qu'elle a été publiée sur YouTube la semaine dernière, et le plombier dit qu'il a déjà été approché en public pour obtenir son autographe.
 Paraphrase: Bien que la vidéo du plombier dansant n'ait été postée sur YouTube que la semaine dernière, elle a déjà été vue plus de 400 000 fois. Topen est devenu une célébrité presque instantanée, des inconnus lui ayant même demandé un autographe.
@@ -123,83 +125,113 @@ Original: """
     with col_translate:
         st.write(st.session_state[title + "traduit"])
 
+
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
     temperature = st.slider(
-        "Temperature : La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.", min_value=0.00, max_value=1.00, value=0.70, step=0.01
+        "Temperature : La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.",
+        min_value=0.00,
+        max_value=1.00,
+        value=0.70,
+        step=0.01,
     )
     top_p = st.slider(
-        "Top p : Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.", min_value=0.00, max_value=1.00, value=1.00, step=0.01
+        "Top p : Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.",
+        min_value=0.00,
+        max_value=1.00,
+        value=1.00,
+        step=0.01,
     )
     frequency_penalty = st.slider(
-        "Frequency penalty : La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.", min_value=0.00, max_value=2.00, value=0.20, step=0.01
+        "Frequency penalty : La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.",
+        min_value=0.00,
+        max_value=2.00,
+        value=0.20,
+        step=0.01,
     )
     presence_penalty = st.slider(
-        "Presence_penalty : La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.", min_value=0.00, max_value=2.00, value=2.00, step=0.01
+        "Presence_penalty : La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.",
+        min_value=0.00,
+        max_value=2.00,
+        value=2.00,
+        step=0.01,
     )
 
 if st.session_state["first_time"]:
     st.session_state["sitemap"] = scraping_sitemap.sitemap(theme)
 
     if entity != "":
-        st.session_state["sitemap"] = st.session_state["sitemap"][st.session_state["sitemap"]['news_title'].str.lower().str.contains(entity.lower())]
+        st.session_state["sitemap"] = st.session_state["sitemap"][
+            st.session_state["sitemap"]["news_title"]
+            .str.lower()
+            .str.contains(entity.lower())
+        ]
         # st.session_state["sitemap"] = st.session_state["sitemap"].loc[unidecode(st.session_state["sitemap"]['news_title'].str).contains(entity.lower())]
 
     st.session_state["sitemap"] = st.session_state["sitemap"].head(nb_entities)
-    
-    if entity == "" or (entity != "" and len(st.session_state["sitemap"]) != 0) :
-        object_list = translator.translate_text(st.session_state["sitemap"]['news_title'], target_lang="FR")
-        st.session_state["sitemap"]['news_title'] = [obj.text for obj in object_list]
-    else :
-        st.write("### Pas d'article trouvé. Veuillez vérifier l'orthographe de votre recherche.")
+
+    if entity == "" or (entity != "" and len(st.session_state["sitemap"]) != 0):
+        object_list = translator.translate_text(
+            st.session_state["sitemap"]["news_title"], target_lang="FR"
+        )
+        st.session_state["sitemap"]["news_title"] = [obj.text for obj in object_list]
+    else:
+        st.write(
+            "### Pas d'article trouvé. Veuillez vérifier l'orthographe de votre recherche."
+        )
 
 selection = aggrid_interactive_table(df=st.session_state["sitemap"])
 
 if selection["selected_rows"] != []:
 
     st.write("## Article sélectionné:")
-    st.write(selection["selected_rows"][0]['loc'])
+    st.write(selection["selected_rows"][0]["loc"])
 
-    if st.button("paraphraser l'article") :
+    if st.button("paraphraser l'article"):
 
         st.session_state["paraphrase_process"] = True
 
-        st.session_state["title"] = selection["selected_rows"][0]['news_title']
+        st.session_state["title"] = selection["selected_rows"][0]["news_title"]
 
         st.write("# " + st.session_state["title"])
 
-        st.session_state["paragraphe_list"] = scraping_bs4_article.get_article(selection["selected_rows"][0]['loc'],selection["selected_rows"][0]['publication_name'])
+        st.session_state["paragraphe_list"] = scraping_bs4_article.get_article(
+            selection["selected_rows"][0]["loc"],
+            selection["selected_rows"][0]["publication_name"],
+        )
 
-        st.session_state["paragraphe_list"] = [el for el in st.session_state["paragraphe_list"] if el != '']
+        st.session_state["paragraphe_list"] = [
+            el for el in st.session_state["paragraphe_list"] if el != ""
+        ]
 
         col_paraphrase, col_translate = st.columns(2)
         with col_paraphrase:
             st.write("### Paragraphe paraphrasé")
         with col_translate:
             st.write("### Paragraphe traduit")
-        for i,el in enumerate(st.session_state["paragraphe_list"]) :
-            paraphrase(f"Paragraphe {i+1}",el)
-        
-        st.session_state["text_to_be_copied"] = (
-            st.session_state["title"]
-        )
+        for i, el in enumerate(st.session_state["paragraphe_list"]):
+            paraphrase(f"Paragraphe {i+1}", el)
 
-        for i in range(len(st.session_state["paragraphe_list"])) :
-            st.session_state["text_to_be_copied"] += "\n\n" + st.session_state[f"Paragraphe {i+1}"].replace("\n", "")
-        
+        st.session_state["text_to_be_copied"] = st.session_state["title"]
+
+        for i in range(len(st.session_state["paragraphe_list"])):
+            st.session_state["text_to_be_copied"] += "\n\n" + st.session_state[
+                f"Paragraphe {i+1}"
+            ].replace("\n", "")
+
         st.session_state["paraphrase_process"] = False
-    
+
     elif st.session_state["paragraphe_list"] != []:
 
         st.write("# " + st.session_state["title"])
-        
+
         col_paraphrase, col_translate = st.columns(2)
         with col_paraphrase:
             st.write("### Paragraphe paraphrasé")
         with col_translate:
             st.write("### Paragraphe traduit")
-        for i,el in enumerate(st.session_state["paragraphe_list"]) :
-            paraphrase(f"Paragraphe {i+1}",el)
+        for i, el in enumerate(st.session_state["paragraphe_list"]):
+            paraphrase(f"Paragraphe {i+1}", el)
 
 # st.write(st.session_state["first_time"])
 

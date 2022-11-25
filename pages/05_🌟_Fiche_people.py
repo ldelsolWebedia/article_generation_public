@@ -1,12 +1,13 @@
-import streamlit as st
 import re
+
+import streamlit as st
 import wikipediaapi
-from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
+from bokeh.models.widgets import Button
 from streamlit_bokeh_events import streamlit_bokeh_events
 
-import trad_deepl
 import GPT3
+import trad_deepl
 
 st.set_page_config(
     page_title="Générateur de fiche people", page_icon=":star2:",
@@ -25,11 +26,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   La fiche se génère automatiquement dès que vous rentrez un sujet.
 -   Vous pouvez recharger une partie de la fiche si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
--   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
--   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
--   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
--   La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.
--   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-de-fiche-people-8f3f488d25c54e42828509a40416b8a5
+-   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-de-fiche-people-d0782ef1d9b347c2b8bbde4e3859fdd8
 	    """
     )
 
@@ -46,14 +43,32 @@ subject = st.text_input("Sujet", on_change=callback).title()
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
     temperature = st.slider(
-        "temperature", min_value=0.00, max_value=1.00, value=0.90, step=0.01
+        "Temperature : La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.",
+        min_value=0.00,
+        max_value=1.00,
+        value=0.70,
+        step=0.01,
     )
-    top_p = st.slider("top_p", min_value=0.00, max_value=1.00, value=1.00, step=0.01)
+    top_p = st.slider(
+        "Top p : Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.",
+        min_value=0.00,
+        max_value=1.00,
+        value=1.00,
+        step=0.01,
+    )
     frequency_penalty = st.slider(
-        "frequency_penalty", min_value=0.00, max_value=2.00, value=2.00, step=0.01
+        "Frequency penalty : La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.",
+        min_value=0.00,
+        max_value=2.00,
+        value=0.20,
+        step=0.01,
     )
     presence_penalty = st.slider(
-        "presence_penalty", min_value=0.00, max_value=2.00, value=2.00, step=0.01
+        "Presence_penalty : La presence penalty fonctionne en diminuant les chances qu'un thème soit sélectionné à nouveau plus il a été utilisé de fois.",
+        min_value=0.00,
+        max_value=2.00,
+        value=2.00,
+        step=0.01,
     )
 
 if subject != "":

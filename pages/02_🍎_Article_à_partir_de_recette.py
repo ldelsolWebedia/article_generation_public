@@ -1,6 +1,6 @@
 import streamlit as st
-from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
+from bokeh.models.widgets import Button
 from streamlit_bokeh_events import streamlit_bokeh_events
 
 import GPT3
@@ -27,10 +27,7 @@ with st.expander("ℹ️ - About this app", expanded=True):
 -   Vous pouvez recharger une partie de l'article si elle vous déplait en appuyant sur le bouton juste au dessus du paragraphe.
 -   Pour copier l'article généré appuyez sur le bouton 'Copier l'article' en dessous de l'article.
 -   Le Input text est le texte utilisé pour générer les parties de l'article.
--   La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.
--   Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.
--   La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.
--   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-d-article-partir-d-une-recette-750g-32e23130813f4e0b8759ecfc54d243f2
+-   Pour plus d'informations : https://www.notion.so/webedia-group/G-n-rateur-d-article-partir-d-une-recette-750g-4e852eed4dfe4e40a2eed6a7341882bd
 -   Vous pouvez essayer l'application avec cette URL : https://www.750g.com/tajine-de-kefta-aux-oeufs-r76578.htm
 	    """
     )
@@ -44,16 +41,29 @@ def callback():
 
 st.write("### Entrez l'URL d'une recette de 750g")
 url = st.text_input("URL", on_change=callback)
-# url = "https://www.750g.com/cookies-aux-pepites-de-chocolat-r89377.htm"
 
 with st.sidebar:
     st.write("## Caractéristiques de GPT 3")
     temperature = st.slider(
-        "temperature", min_value=0.00, max_value=1.00, value=0.70, step=0.01
+        "Temperature : La température correspond à la créativité de GPT3, plus elle sera élevée et plus GPT3 innovera.",
+        min_value=0.00,
+        max_value=1.00,
+        value=0.70,
+        step=0.01,
     )
-    top_p = st.slider("top_p", min_value=0.00, max_value=1.00, value=1.00, step=0.01)
+    top_p = st.slider(
+        "Top p : Le top P est une alternative à la température. Attention, il ne faut pas utiliser les deux en même temps. Si on modifie l’un, il faut mettre l’autre à 1.",
+        min_value=0.00,
+        max_value=1.00,
+        value=1.00,
+        step=0.01,
+    )
     frequency_penalty = st.slider(
-        "frequency_penalty", min_value=0.00, max_value=2.00, value=0.20, step=0.01
+        "Frequency penalty : La frequency penalty fonctionne en diminuant les chances qu'un mot soit sélectionné à nouveau plus il a été utilisé de fois.",
+        min_value=0.00,
+        max_value=2.00,
+        value=0.20,
+        step=0.01,
     )
 
 if url != "":

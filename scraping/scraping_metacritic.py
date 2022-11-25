@@ -1,10 +1,11 @@
 import time
+from random import randint
 
+from icecream import ic
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from random import randint
-from icecream import ic
+
 
 def get_JV_summary(entity):
 
