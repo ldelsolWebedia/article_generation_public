@@ -65,13 +65,22 @@ def get_article(url, site):
         return paragraphe_list
 
     if (
-        site in ["GameStar", "3DJuegos"]
+        site == "GameStar"
         and soup.find_all("div", {"class": "article-content"}) != []
     ):
         article_content = soup.find("div", {"class": "article-content"})
         for el in article_content.find_all(p_or_ul_has_no_class):
             if el.parent["class"] == ['article-content'] :
                 paragraphe_list.append(el.text)
+        return paragraphe_list
+
+    if (
+        site == "3DJuegos"
+        and soup.find_all("div", {"class": "article-content"}) != []
+    ):
+        article_content = soup.find("div", {"class": "article-content"})
+        for el in article_content.find_all(p_or_ul_has_no_class):
+            paragraphe_list.append(el.text)
         return paragraphe_list
 
     if (
