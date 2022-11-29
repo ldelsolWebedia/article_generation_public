@@ -70,7 +70,8 @@ def get_article(url, site):
     ):
         article_content = soup.find("div", {"class": "article-content"})
         for el in article_content.find_all(p_or_ul_has_no_class):
-            paragraphe_list.append(el.text)
+            if el.parent["class"] == ['article-content'] :
+                paragraphe_list.append(el.text)
         return paragraphe_list
 
     if (
@@ -128,7 +129,7 @@ def get_article(url, site):
 if __name__ == "__main__":
     ic(
         get_article(
-            "https://www.3djuegos.com/juegos/horizon-forbidden-west/noticias/que-soy-unico-que-tiene-prisa-juegos-mundo-abierto",
-            "3DJuegos",
+            "https://www.gamestar.de/artikel/fliegende-boote-in-cod-warzone-2,3387343.html",
+            "GameStar",
         )
     )
