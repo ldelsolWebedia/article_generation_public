@@ -33,6 +33,8 @@ def get_html(url):
 def p_or_ul_has_no_class(tag):
     return tag.name in ["p", "ul"] and not tag.has_attr("class")
 
+def p_ul_ol_has_no_class(tag):
+    return tag.name in ["p", "ul","ol"] and not tag.has_attr("class")
 
 def p_has_no_class(tag):
     return tag.name == "p" and not tag.has_attr("class")
@@ -79,7 +81,7 @@ def get_article(url, site):
         and soup.find_all("div", {"class": "article-content"}) != []
     ):
         article_content = soup.find("div", {"class": "article-content"})
-        for el in article_content.find_all(p_or_ul_has_no_class):
+        for el in article_content.find_all(p_ul_ol_has_no_class):
             paragraphe_list.append(el.text)
         return paragraphe_list
 
